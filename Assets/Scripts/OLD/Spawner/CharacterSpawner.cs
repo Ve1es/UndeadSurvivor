@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     public override void Spawned()
     {
         if (Object.HasStateAuthority == false) return;
+
+       
         // Collect all spawn points in the scene.
         //_spawnPoints = FindObjectsOfType<SpawnPoint>();
     }
@@ -28,7 +31,7 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         _gameStateController = gameStateController;
         foreach (var player in Runner.ActivePlayers)
         {
-            SpawnCharacter(player);
+            SpawnCharacter(player);           
         }
     }
 
@@ -52,6 +55,9 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
         // Add the new spaceship to the players to be tracked for the game end check.
         _gameStateController.TrackNewPlayer(playerObject.GetComponent<PlayerDataNetworked>().Id);
+
+
+ 
     }
 
     // Despawns the spaceship associated with a player when their client leaves the game session.

@@ -6,16 +6,12 @@ using UnityEngine;
 
 public class CharacterPlayerController : NetworkBehaviour
 {
-    // Game Session AGNOSTIC Settings
-    [SerializeField] private float _respawnDelay = 4.0f;
-    [SerializeField] private float _spaceshipDamageRadius = 2.5f;
-    [SerializeField] private LayerMask _asteroidCollisionLayer;
+    [SerializeField] private PlayerPool _playerPool;
 
     // Local Runtime references
     private ChangeDetector _changeDetector;
     private Rigidbody _rigidbody = null;
     private PlayerDataNetworked _playerDataNetworked = null;
-   // private CharacterVisualController _visualController = null;
 
     private List<LagCompensatedHit> _lagCompensatedHits = new List<LagCompensatedHit>();
 
@@ -25,6 +21,7 @@ public class CharacterPlayerController : NetworkBehaviour
     [Networked] private NetworkBool _isAlive { get; set; }
 
     [Networked] private TickTimer _respawnTimer { get; set; }
+
 
     public override void Spawned()
     {
@@ -39,21 +36,12 @@ public class CharacterPlayerController : NetworkBehaviour
         // The Game Session SPECIFIC settings are initialized
         if (Object.HasStateAuthority == false) return;
         _isAlive = true;
+
+        _playerPool.RegisterPlayer(gameObject);
     }
 
     public override void Render()
     {
-        foreach (var change in _changeDetector.DetectChanges(this, out var previousBuffer, out var currentBuffer))
-        {
-            switch (change)
-            {
-                case nameof(_isAlive):
-                    var reader = GetPropertyReader<NetworkBool>(nameof(_isAlive));
-                    var (previous, current) = reader.Read(previousBuffer, currentBuffer);
-                    //ToggleVisuals(previous, current);
-                    break;
-            }
-        }
     }
 
     //private void ToggleVisuals(bool wasAlive, bool isAlive)
@@ -72,18 +60,6 @@ public class CharacterPlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // Checks if the spaceship is ready to be respawned.
-        if (_respawnTimer.Expired(Runner))
-        {
-            _isAlive = true;
-            _respawnTimer = default;
-        }
-
-        // Checks if the spaceship got hit by an asteroid
-        //if (_isAlive && HasHitAsteroid())
-        //{
-        //    ShipWasHit();
-        //}
     }
 
     // Check asteroid collision using a lag compensated OverlapSphere
@@ -110,28 +86,7 @@ public class CharacterPlayerController : NetworkBehaviour
 
     // Toggle the _isAlive boolean if the spaceship was hit and check whether the player has any lives left.
     // If they do, then the _respawnTimer is activated.
-    private void ShipWasHit()
-    {
-        _isAlive = false;
-        FindObjectOfType<GameStateController>().CheckIfGameHasEnded();
-        //ResetShip();
-
-        //if (Object.HasStateAuthority == false) return;
-
-        //if (_playerDataNetworked.Lives > 1)
-        //{
-        //    _respawnTimer = TickTimer.CreateFromSeconds(Runner, _respawnDelay);
-        //}
-        //else
-        //{
-        //    _respawnTimer = default;
-        //}
-
-        //_playerDataNetworked.SubtractLife();
-
-        //FindObjectOfType<GameStateController>().CheckIfGameHasEnded();
-    }
-
+   
     // Resets the spaceships movement velocity
     //private void ResetShip()
     //{

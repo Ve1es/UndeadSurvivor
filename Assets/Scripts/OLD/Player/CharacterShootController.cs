@@ -43,7 +43,7 @@ public class CharacterShootController : NetworkBehaviour
         {
             WeaponMove(input);
             if (input.Shoot && _nextFireTime <= 0)
-                Fire(input);
+            Fire(input);
         }
     }
 

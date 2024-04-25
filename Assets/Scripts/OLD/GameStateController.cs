@@ -16,6 +16,7 @@ public class GameStateController : NetworkBehaviour
     [SerializeField] private float _startDelay = 4.0f;
     [SerializeField] private float _endDelay = 4.0f;
     [SerializeField] private float _gameSessionLength = 180.0f;
+    [SerializeField] private PlayerPool _playerPool;
 
     //[SerializeField] private TextMeshProUGUI _startEndDisplay = null;
     //[SerializeField] private TextMeshProUGUI _ingameTimerDisplay = null;
@@ -62,6 +63,8 @@ public class GameStateController : NetworkBehaviour
         // Initialize the game state on the host
         _gameState = GameState.Starting;
         _timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
+
+        _playerPool.ClearPool();
     }
 
     public override void FixedUpdateNetwork()

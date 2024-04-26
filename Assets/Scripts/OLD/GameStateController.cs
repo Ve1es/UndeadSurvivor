@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Fusion;
 using TMPro;
 using UnityEngine;
@@ -12,20 +11,27 @@ public class GameStateController : NetworkBehaviour
         Running,
         Ending
     }
+    ///Displays///
+    [SerializeField] private GameObject _kills;
+    [SerializeField] private GameObject _hp;
+    [SerializeField] private GameObject _ammo;
+    //[SerializeField] private GameObject _gameRoundTimer;
+    [SerializeField] private GameObject _joystickRight;
+    [SerializeField] private GameObject _joystickLeft;
+    [SerializeField] private GameObject _loading;
 
-    [SerializeField] private float _startDelay = 4.0f;
-    [SerializeField] private float _endDelay = 4.0f;
-    [SerializeField] private float _gameSessionLength = 180.0f;
+    [SerializeField] private TMP_Text _gameRoundTimer;
+
+
+
+
     [SerializeField] private PlayerPool _playerPool;
 
-    //[SerializeField] private TextMeshProUGUI _startEndDisplay = null;
-    //[SerializeField] private TextMeshProUGUI _ingameTimerDisplay = null;
 
     [Networked] private TickTimer _timer { get; set; }
     [Networked] private GameState _gameState { get; set; }
 
-    [Networked] private NetworkBehaviourId _winner { get; set; }
-
+    [SerializeField] private WaveController _waveController;
     private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
     private LocalInputPoller _localInputPoller;
     public JoystickMove joysticMove;
@@ -62,8 +68,8 @@ public class GameStateController : NetworkBehaviour
 
         // Initialize the game state on the host
         _gameState = GameState.Starting;
-        _timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
-
+        //_timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
+        
         _playerPool.ClearPool();
     }
 
@@ -77,12 +83,6 @@ public class GameStateController : NetworkBehaviour
                 break;
             case GameState.Running:
                 UpdateRunningDisplay();
-                // Ends the game if the game session length has been exceeded
-                if (_timer.ExpiredOrNotRunning(Runner))
-                {
-                    GameHasEnded();
-                }
-
                 break;
             case GameState.Ending:
                 UpdateEndingDisplay();
@@ -92,12 +92,14 @@ public class GameStateController : NetworkBehaviour
         }
     }
 
+
+
     private void UpdateStartingDisplay()
     {
         // --- Host & Client
         // Display the remaining time until the game starts in seconds (rounded down to the closest full second)
 
-       // _startEndDisplay.text = $"Game Starts In {Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0)}";
+       
 
         // --- Host
         if (Object.HasStateAuthority == false) return;
@@ -105,21 +107,33 @@ public class GameStateController : NetworkBehaviour
 
         // Starts the Spaceship and Asteroids spawners once the game start delay has expired
         FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
-        //FindObjectOfType<AsteroidSpawner>().StartAsteroidSpawner();
+       
+
 
         // Switches to the Running GameState and sets the time to the length of a game session
         _gameState = GameState.Running;
-        _timer = TickTimer.CreateFromSeconds(Runner, _gameSessionLength);
+        _waveController.StartWaves();
+        _timer = TickTimer.CreateFromSeconds(Runner, 100);
+        //_timer = TickTimer.CreateFromSeconds(Runner, _gameSessionLength);
     }
 
     private void UpdateRunningDisplay()
     {
+        
+        int minutes = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) / 60);
+        int seconds = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) % 60);
+        string a = string.Format("{0:00}:{1:00}", minutes, seconds);
+        _gameRoundTimer.text = a;
         // --- Host & Client
         // Display the remaining time until the game ends in seconds (rounded down to the closest full second)
         //_startEndDisplay.gameObject.SetActive(false);
         //_ingameTimerDisplay.gameObject.SetActive(true);
         //_ingameTimerDisplay.text =
-         //   $"{Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0).ToString("000")} seconds left";
+        //   $"{Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0).ToString("000")} seconds left";
+        // _gameRoundTimer.text = $"Game Starts In {Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0)}";
+
+        // FindObjectOfType<BuffSpawner>().StartSpawnBuff();
+        //FindObjectOfType<EnemySpawner>().SpawnEnemyWave();
     }
 
     private void UpdateEndingDisplay()
@@ -128,7 +142,6 @@ public class GameStateController : NetworkBehaviour
         // Display the results and
         // the remaining time until the current game session is shutdown
 
-        if (Runner.TryFindBehaviour(_winner, out PlayerDataNetworked playerData) == false) return;
 
        // _startEndDisplay.gameObject.SetActive(true);
        // _ingameTimerDisplay.gameObject.SetActive(false);
@@ -142,57 +155,13 @@ public class GameStateController : NetworkBehaviour
 
         Runner.Shutdown();
     }
-
-    // Called from the ShipController when it hits an asteroid
-    public void CheckIfGameHasEnded()
-    {
-        if (Object.HasStateAuthority == false) return;
-
-        int playersAlive = 0;
-
-        for (int i = 0; i < _playerDataNetworkedIds.Count; i++)
-        {
-            if (Runner.TryFindBehaviour(_playerDataNetworkedIds[i],
-                    out PlayerDataNetworked playerDataNetworkedComponent) == false)
-            {
-                _playerDataNetworkedIds.RemoveAt(i);
-                i--;
-                continue;
-            }
-
-            if (playerDataNetworkedComponent.Lives > 0) playersAlive++;
-        }
-
-        // If more than 1 player is left alive, the game continues.
-        // If only 1 player is left, the game ends immediately.
-        if (playersAlive > 1 || (Runner.ActivePlayers.Count() == 1 && playersAlive == 1)) return;
-
-        foreach (var playerDataNetworkedId in _playerDataNetworkedIds)
-        {
-            if (Runner.TryFindBehaviour(playerDataNetworkedId,
-                    out PlayerDataNetworked playerDataNetworkedComponent) ==
-                false) continue;
-
-            if (playerDataNetworkedComponent.Lives > 0 == false) continue;
-
-            _winner = playerDataNetworkedId;
-        }
-
-        if (_winner == default) // when playing alone in host mode this marks the own player as winner
-        {
-            _winner = _playerDataNetworkedIds[0];
-        }
-
-        GameHasEnded();
-    }
-
     private void GameHasEnded()
     {
-        _timer = TickTimer.CreateFromSeconds(Runner, _endDelay);
-        _gameState = GameState.Ending;
+        //throw new NotImplementedException();
     }
     public void TrackNewPlayer(NetworkBehaviourId playerDataNetworkedId)
     {
         _playerDataNetworkedIds.Add(playerDataNetworkedId);
     }
+    
 }

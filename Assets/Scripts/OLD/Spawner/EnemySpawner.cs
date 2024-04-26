@@ -5,22 +5,34 @@ using UnityEngine;
 
 public class EnemySpawner : NetworkBehaviour
 {
-    public GameObject mobPrefab;
+    //private List<NetworkObject> _spawnedEnnemies;
     public Transform spawnPoint;
-    public float spawnInterval = 1f;
+    private bool _isSpawning = false;
 
-    void Start()
+    public void StartSpawnEnemy(float spawnInterval, List<NetworkPrefabRef> enemies)
     {
-        StartCoroutine(SpawnMobs());
+        _isSpawning = true;
+        StartCoroutine(SpawnMobs(spawnInterval, enemies));
+    }
+    public void StopSpawnEnemy()
+    {
+        _isSpawning = false;
+        //foreach(NetworkObject enemy in _spawnedEnnemies)
+        //{
+        //    Runner.Despawn(enemy);
+        //}
+        //_spawnedEnnemies.Clear();
     }
 
-    IEnumerator SpawnMobs()
+    IEnumerator SpawnMobs(float spawnInterval, List<NetworkPrefabRef> enemies)
     {
-        while (true)
+        while (_isSpawning)
         {
             if (Runner != null)
-            { Runner.Spawn(mobPrefab, spawnPoint.position, Quaternion.identity); }
-
+            {
+                //_spawnedEnnemies.Add(Runner.Spawn(enemies[Random.Range(0, enemies.Count-1)], spawnPoint.position, Quaternion.identity));
+                Runner.Spawn(enemies[Random.Range(0, enemies.Count - 1)], spawnPoint.position, Quaternion.identity);
+            }
             yield return new WaitForSeconds(spawnInterval);
         }
     }

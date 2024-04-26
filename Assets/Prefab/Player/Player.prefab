@@ -272,11 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d11bba8e65919243bdfa68e547a797e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 0.3
   player: {fileID: 2609276087168753560}
   weapon: {fileID: 4808746877690626986}
-  bulletPrefab: {fileID: 2716557972670139232, guid: 81fb43cba1abd404ba9e0d71ee5f3e7d, type: 3}
+  _bulletPrefab:
+    RawGuidValue: 81fb43cba1abd404ba9e0d71ee5f3e7d
   spawnBulletPoint: {fileID: 6640704311305086042}
-  fireRate: 1
   _spawnedProjectile: 0
 --- !u!114 &-6799881331775675790
 MonoBehaviour:

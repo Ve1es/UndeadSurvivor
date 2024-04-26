@@ -27,6 +27,8 @@ public class CharacterPlayerController : NetworkBehaviour
     {
         // --- Host & Client
         // Set the local runtime references.
+
+
         _rigidbody = GetComponent<Rigidbody>();
         _playerDataNetworked = GetComponent<PlayerDataNetworked>();
         //_visualController = GetComponent<CharacterVisualController>();

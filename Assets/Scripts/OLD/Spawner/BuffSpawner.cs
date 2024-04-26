@@ -5,26 +5,30 @@ using UnityEngine;
 
 public class BuffSpawner : NetworkBehaviour
 {
-    public GameObject[] buffPrefabs;
     public Transform spawnCenter;
     public float spawnWidth = 27f;
     public float spawnHeight = 19f;
     public float spawnFrequency = 5f;
     private const float ZCOORDINATE = 0;
+    private bool _isSpawning = false;
 
-    public override void Spawned()
+    public void StartSpawnBuff(float _buffSpawnTime, List<NetworkPrefabRef> enemies)
     {
-        StartCoroutine(SpawnBuff());
+        _isSpawning = true;
+        StartCoroutine(SpawnBuff(_buffSpawnTime, enemies));
     }
-
-    IEnumerator SpawnBuff()
+    public void StopSpawnBuff()
     {
-        while (true)
+        _isSpawning = false;
+    }
+    IEnumerator SpawnBuff(float _buffSpawnTime, List<NetworkPrefabRef> enemies)
+    {
+        while (_isSpawning)
         {
-            GameObject buffPrefab = buffPrefabs[Random.Range(0, buffPrefabs.Length)];
-            Vector3 randomPosition = new Vector3(Random.Range(-spawnHeight, spawnHeight), Random.Range(-spawnWidth, spawnWidth), 0);
+            NetworkPrefabRef buffPrefab = enemies[Random.Range(0, enemies.Count)];
+            Vector3 randomPosition = new Vector3(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight), ZCOORDINATE);
             Runner.Spawn(buffPrefab, randomPosition, Quaternion.identity);
-            yield return new WaitForSeconds(spawnFrequency);
+            yield return new WaitForSeconds(_buffSpawnTime);
         }
     }
 }

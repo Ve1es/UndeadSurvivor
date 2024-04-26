@@ -4110,6 +4110,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5582028626632134363, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
+      propertyPath: _poolableObjects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582028626632134363, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
+      propertyPath: _poolableObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 4443829983855016703, guid: 9cbfcda873c09cd4aa207f696f23b0cc, type: 3}
+    - target: {fileID: 5582028626632134363, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
+      propertyPath: _poolableObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1087990327453938734, guid: ef8a7c5fddfc51a48b7feab46e47da82, type: 3}
+    - target: {fileID: 5582028626632134363, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
+      propertyPath: _poolableObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 3189593164986445873, guid: 81fb43cba1abd404ba9e0d71ee5f3e7d, type: 3}
+    - target: {fileID: 5582028626632134363, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
+      propertyPath: _poolableObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 244604454094533662, guid: 25f63fdc56e0d5a4a8a3b51e7984caf0, type: 3}
     - target: {fileID: 7656743980283625183, guid: ec6c08cd6a60f0e41a12693700a1b335, type: 3}
       propertyPath: m_Name
       value: NetworkRunner

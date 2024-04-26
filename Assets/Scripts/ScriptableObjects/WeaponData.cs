@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Weapon Data", order = 2)]
@@ -9,9 +6,15 @@ public class WeaponData : ScriptableObject
     [SerializeField]
     private string _weaponName;
     [SerializeField]
-    private float _fireRate;
+    private float _timeBetweenShots;
     [SerializeField]
     private float _damage;
+    [SerializeField]
+    private int _ammo;
+    [SerializeField]
+    private float _range;
+    [SerializeField]
+    private int _bulletPerShot;
 
     public string WeaponName
     {
@@ -20,11 +23,11 @@ public class WeaponData : ScriptableObject
             return _weaponName;
         }
     }
-    public float FireRate
+    public float TimeBetweenShots
     {
         get
         {
-            return _fireRate;
+            return _timeBetweenShots;
         }
     }
     public float Damage
@@ -32,6 +35,27 @@ public class WeaponData : ScriptableObject
         get
         {
             return _damage;
+        }
+    }
+    public float Range
+    {
+        get
+        {
+            return _range;
+        }
+    }
+    public int Ammo
+    {
+        get
+        {
+            return _ammo;
+        }
+    }
+    public int BulletPerShot
+    {
+        get
+        {
+            return _bulletPerShot;
         }
     }
 }

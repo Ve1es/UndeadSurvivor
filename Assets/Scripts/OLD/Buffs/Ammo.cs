@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Ammo : Buff
 {
-    private float _ammo = 5;
     private void OnTriggerEnter2D(Collider2D other)
     {
         FindEffect(other);
@@ -11,7 +10,7 @@ public class Ammo : Buff
     {
         if (other.CompareTag("Player"))
         {
-            //other.GetComponent<Health>().AddHP(_ammo);
+            other.GetComponent<WeaponController>().AddAmmo();
             Runner.Despawn(Object);
         }
     }

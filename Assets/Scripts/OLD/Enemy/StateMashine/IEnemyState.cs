@@ -6,7 +6,7 @@ public interface IEnemyState
 {
     void Enter();
     void Exit();
-    void Update(GameObject _player);
+    void UpdateSM(GameObject _player);
 }
 
 //public abstract class IEnemyState

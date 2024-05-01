@@ -3,21 +3,33 @@ using UnityEngine;
 
 public class Health : NetworkBehaviour
 {
+    [SerializeField] private Animator _animator;
     [Networked]
     [SerializeField]
     private float _healthPoint { get; set; }
     private float _maxHP;
-    public override void Spawned()
+
+    public void SetHP(float hp)
     {
-        _maxHP = _healthPoint;
+        _healthPoint = hp;
+        _maxHP = hp;
     }
-    public void ReduceHP(float damage)
+    public float GetHP()
+    {
+        return _healthPoint;
+    }
+    public bool ReduceHP(float damage)
     {
         _healthPoint -= damage;
         if (_healthPoint <= 0)
         {
+            _animator.SetBool("Dead", true);
             Runner.Despawn(Object);
+            return true;
         }
+        _animator.SetTrigger("Hit");
+        return false;
+        
     }
     public void AddHP(float healing)
     {
@@ -25,5 +37,4 @@ public class Health : NetworkBehaviour
         if (_healthPoint > _maxHP)
             _healthPoint = _maxHP;
     }
-
 }

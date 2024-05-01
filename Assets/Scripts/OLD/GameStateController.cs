@@ -15,23 +15,20 @@ public class GameStateController : NetworkBehaviour
     [SerializeField] private GameObject _kills;
     [SerializeField] private GameObject _hp;
     [SerializeField] private GameObject _ammo;
-    //[SerializeField] private GameObject _gameRoundTimer;
     [SerializeField] private GameObject _joystickRight;
     [SerializeField] private GameObject _joystickLeft;
     [SerializeField] private GameObject _loading;
 
     [SerializeField] private TMP_Text _gameRoundTimer;
-
-
-
-
     [SerializeField] private PlayerPool _playerPool;
+    
 
 
     [Networked] private TickTimer _timer { get; set; }
     [Networked] private GameState _gameState { get; set; }
 
     [SerializeField] private WaveController _waveController;
+    [SerializeField] private KillsList _killsList;
     private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
     private LocalInputPoller _localInputPoller;
     public JoystickMove joysticMove;
@@ -107,13 +104,14 @@ public class GameStateController : NetworkBehaviour
 
         // Starts the Spaceship and Asteroids spawners once the game start delay has expired
         FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
-       
+        _killsList.playersKills.Clear();
 
 
-        // Switches to the Running GameState and sets the time to the length of a game session
-        _gameState = GameState.Running;
+         // Switches to the Running GameState and sets the time to the length of a game session
+         _gameState = GameState.Running;
         _waveController.StartWaves();
         _timer = TickTimer.CreateFromSeconds(Runner, 100);
+
         //_timer = TickTimer.CreateFromSeconds(Runner, _gameSessionLength);
     }
 

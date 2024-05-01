@@ -7,31 +7,39 @@ public class RegularZombie : Enemy
     //StateMashine//
     private StateMachine _sm;
     private MovementState _movementState;
-    public DeathState _deathState;
-    public ZombieAttackState _zombieAttackState;
+    private DeathState _deathState;
+    private ZombieAttackState _zombieAttackState;
     //GameLogic//
-    public Animator anim;
-    public PlayerPool playerObjects;
-    public EnemyData enemyData;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private PlayerPool _playerObjects;
+    [SerializeField] private EnemyData _enemyData;
+    [SerializeField] private Health _hp;
+
     private List<float> _distances;
     private GameObject _nearestPlayer;
     private float _nearestPlayerDistance;
-
-    //private void Awake()
-    //{
-    //    _sm = new StateMachine();
-    //    _movementState = new MovementState(this, _enemyData.MovingSpeed);
-    //    _deathState = new DeathState(this);
-    //    _zombieAttackState = new ZombieAttackState();
-    //}
+    private bool _canAttack=true;
     public override void Spawned()
     {
         _sm = new StateMachine();
-        _movementState = new MovementState(gameObject, enemyData.MovingSpeed);
+        _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
         _deathState = new DeathState(gameObject);
-        _zombieAttackState = new ZombieAttackState();
+        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState);
+        _hp.SetHP(_enemyData.HP);
         _sm.Initialize(_movementState);
+
         StartCoroutine(NearestPlayer());
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+       if(_canAttack && other.gameObject.CompareTag("Player"))
+        {
+            _canAttack = false;
+            _nearestPlayer = other.gameObject;
+            
+            AttackBehavior();
+            StartCoroutine(WaitForSecondsCoroutine());
+        }
     }
     public override void Activate() 
     {
@@ -39,11 +47,7 @@ public class RegularZombie : Enemy
     }
     public override void FixedUpdateNetwork()
     {
-        _sm.CurrentState.Update(_nearestPlayer);
-        //if(nearestPlayerDistance< enemyData.AttackDistance)
-        //{
-        //    AttackBehavior();
-        //}   
+        _sm.CurrentState.UpdateSM(_nearestPlayer);  
     }
     public override void MoveBehavior() 
     {
@@ -60,21 +64,37 @@ public class RegularZombie : Enemy
     public void FoundNearestPlayer()
     {
         _distances = new List<float>();
-        foreach (GameObject player in playerObjects.players)
+        if (_playerObjects.players != null)
         {
-            float distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
-            _distances.Add(distanceToPlayer);
+            for (int i = _playerObjects.players.Count - 1; i >= 0; i--)
+            {
+                if (_playerObjects.players[i] == null)
+                {
+                    _playerObjects.players.RemoveAt(i);
+                }
+                else
+                {
+                    float distanceToPlayer = Vector3.Distance(gameObject.transform.position, _playerObjects.players[i].transform.position);
+                    _distances.Add(distanceToPlayer);
+                }
+            }
+            _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
+            int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
+            if (minDistanceIndex >= 0)
+                _nearestPlayer = _playerObjects.players[minDistanceIndex];
         }
-        _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
-        int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
-        _nearestPlayer = playerObjects.players[minDistanceIndex];
     }
     IEnumerator NearestPlayer()
     {
-        while (playerObjects.players.Count > 0)
+        while (_playerObjects.players.Count > 0)
         {
             FoundNearestPlayer();
             yield return new WaitForSeconds(1f);
         }
+    }
+    IEnumerator WaitForSecondsCoroutine()
+    {
+        yield return new WaitForSeconds(_enemyData.TimeBetweenAttacks);
+        _canAttack = true;
     }
 }

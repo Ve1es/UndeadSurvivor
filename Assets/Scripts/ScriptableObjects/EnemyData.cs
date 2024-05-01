@@ -8,13 +8,16 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     private string _enemyName;
     [SerializeField]
-    private float _attackSpeed;
+    private float _timeBetweenAttacks;
     [SerializeField]
     private float _movingSpeed;
     [SerializeField]
     private float _damage;
     [SerializeField]
     private float _attackDistance;
+    [SerializeField]
+    private float _hp;
+
 
     public string EnemyName
     {
@@ -23,11 +26,11 @@ public class EnemyData : ScriptableObject
             return _enemyName;
         }
     }
-    public float AttackSpeed
+    public float TimeBetweenAttacks
     {
         get
         {
-            return _attackSpeed;
+            return _timeBetweenAttacks;
         }
     }
     public float MovingSpeed
@@ -49,6 +52,13 @@ public class EnemyData : ScriptableObject
         get
         {
             return _damage;
+        }
+    }
+    public float HP
+    {
+        get
+        {
+            return _hp;
         }
     }
 }

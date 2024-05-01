@@ -12,10 +12,13 @@ public class WeaponData : ScriptableObject
     [SerializeField]
     private int _ammo;
     [SerializeField]
-    private float _range;
+    private float _flightDistance;
     [SerializeField]
     private int _bulletPerShot;
-
+    [SerializeField]
+    private Sprite _weaponSprite;
+    [SerializeField]
+    private float _spread;
     public string WeaponName
     {
         get
@@ -37,11 +40,11 @@ public class WeaponData : ScriptableObject
             return _damage;
         }
     }
-    public float Range
+    public float FlightDistance
     {
         get
         {
-            return _range;
+            return _flightDistance;
         }
     }
     public int Ammo
@@ -56,6 +59,20 @@ public class WeaponData : ScriptableObject
         get
         {
             return _bulletPerShot;
+        }
+    }
+    public Sprite WeaponSprite
+    {
+        get
+        {
+            return _weaponSprite;
+        }
+    }
+    public float Spread
+    {
+        get
+        {
+            return _spread;
         }
     }
 }

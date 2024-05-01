@@ -1,15 +1,13 @@
-using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
-using Fusion.Addons.Physics;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovementController : NetworkBehaviour
-{  // Game Session AGNOSTIC Settings
-    [SerializeField] private float _movementSpeed = 20f;
+{
+    private float _movementSpeed;
 
     private Rigidbody2D _rigidbody;
+    [SerializeField] private Animator _anim;
+    private bool _isRun = false;
 
     private CharacterPlayerController _characterController = null;
 
@@ -23,6 +21,7 @@ public class CharacterMovementController : NetworkBehaviour
         // --- Host
         // The Game Session SPECIFIC settings are initialized
         if (Object.HasStateAuthority == false) return;
+
     }
 
     public override void FixedUpdateNetwork()
@@ -32,10 +31,32 @@ public class CharacterMovementController : NetworkBehaviour
         {
             Move(input);
         }
+        if((_rigidbody.velocity.x!=0|| _rigidbody.velocity.y != 0) && !_isRun)
+        {
+            _isRun = true;
+            RPC_ChangeMoveAnim(_isRun);
+        }
+        if (_rigidbody.velocity.x == 0 && _rigidbody.velocity.y == 0 && _isRun)
+        {
+            _isRun = false;
+            RPC_ChangeMoveAnim(_isRun);
+        }
     }
+
+    [Rpc]
+    public void RPC_ChangeMoveAnim(bool isRun)
+    {
+        _anim.SetBool("Run", isRun);
+    }
+
+
     private void Move(CharacterInput input)
     {
         Vector3 movement = new Vector3(input.MoveHorizontalInput * _movementSpeed, input.MoveVerticalInput * _movementSpeed, 0f);
         _rigidbody.velocity = movement;
+    }
+    public void SetSpeed(float speed)
+    {
+        _movementSpeed = speed;
     }
 }

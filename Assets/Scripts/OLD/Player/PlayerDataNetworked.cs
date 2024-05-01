@@ -81,7 +81,7 @@ public class PlayerDataNetworked : NetworkBehaviour
     // Remove the entry in the local Overview panel for this spaceship
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-       // _overviewPanel.RemoveEntry(Object.InputAuthority);
+        //_overviewPanel.RemoveEntry(Object.InputAuthority);
     }
 
     // Increase the score by X amount of points

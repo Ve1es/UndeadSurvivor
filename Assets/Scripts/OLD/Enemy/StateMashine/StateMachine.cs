@@ -17,4 +17,8 @@ public class StateMachine
         CurrentState = newState;
         CurrentState.Enter();
     }
+    public IEnemyState GetCurrentState()
+    {
+        return CurrentState;
+    }
 }

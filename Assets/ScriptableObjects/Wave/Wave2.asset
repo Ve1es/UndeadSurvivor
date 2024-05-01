@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28c34d4816a8ac14dbc2cd9a7987556b, type: 3}
-  m_Name: Wave1
+  m_Name: Wave2
   m_EditorClassIdentifier: 
   _enemies:
   - RawGuidValue: 25f63fdc56e0d5a4a8a3b51e7984caf0
+  - RawGuidValue: ced6a6bef2379ab4fb38a7104ddad230
   _buffs:
   - RawGuidValue: 9cbfcda873c09cd4aa207f696f23b0cc
-  _waveDuration: 6
-  _breakTime: 10
+  - RawGuidValue: ef8a7c5fddfc51a48b7feab46e47da82
+  _waveDuration: 18
+  _breakTime: 3
   _enemySpawnTime: 2
   _bonusesSpawnTime: 5

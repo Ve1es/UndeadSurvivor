@@ -19,7 +19,7 @@ public class DeathState : IEnemyState
     {
         
     }
-    public void Update(GameObject _player)
+    public void UpdateSM(GameObject _player)
     {
 
     }

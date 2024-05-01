@@ -5,22 +5,23 @@ public class MovementState : IEnemyState
     private GameObject _enemy;
     private float _moveSpeed;
     private Rigidbody2D _rb;
-    public MovementState(GameObject enemy, float moveSpeed)
+    public MovementState(GameObject enemy, float speed)
     {
         _enemy = enemy;
-        _moveSpeed = moveSpeed;
+        _moveSpeed = speed;
     }
     public void Enter()
     {
         _rb = _enemy.GetComponent<Rigidbody2D>();
+        _enemy.GetComponent<Animator>().SetBool("Run", true);
     }
 
     public void Exit()
     {
-
+        _enemy.GetComponent<Animator>().SetBool("Run", false);
     }
 
-    public void Update(GameObject _player)
+    public void UpdateSM(GameObject _player)
     {
         if (_player != null)
         {

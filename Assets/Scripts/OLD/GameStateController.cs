@@ -100,7 +100,7 @@ public class GameStateController : NetworkBehaviour
 
         // --- Host
         if (Object.HasStateAuthority == false) return;
-        if (_timer.ExpiredOrNotRunning(Runner) == false) return;
+        //if (_timer.ExpiredOrNotRunning(Runner) == false) return;
 
         // Starts the Spaceship and Asteroids spawners once the game start delay has expired
         FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
@@ -110,7 +110,7 @@ public class GameStateController : NetworkBehaviour
          // Switches to the Running GameState and sets the time to the length of a game session
          _gameState = GameState.Running;
         _waveController.StartWaves();
-        _timer = TickTimer.CreateFromSeconds(Runner, 100);
+        //_timer = TickTimer.CreateFromSeconds(Runner, 100);
 
         //_timer = TickTimer.CreateFromSeconds(Runner, _gameSessionLength);
     }
@@ -118,10 +118,13 @@ public class GameStateController : NetworkBehaviour
     private void UpdateRunningDisplay()
     {
         
-        int minutes = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) / 60);
-        int seconds = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) % 60);
-        string a = string.Format("{0:00}:{1:00}", minutes, seconds);
-        _gameRoundTimer.text = a;
+        ////int minutes = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) / 60);
+        ////int seconds = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) % 60);
+        ////string a = string.Format("{0:00}:{1:00}", minutes, seconds);
+        ////_gameRoundTimer.text = a;
+
+
+
         // --- Host & Client
         // Display the remaining time until the game ends in seconds (rounded down to the closest full second)
         //_startEndDisplay.gameObject.SetActive(false);

@@ -81,7 +81,7 @@ public class Skeleton : Enemy
             }
             _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
             int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
-           // if (minDistanceIndex >= 0)
+            if (minDistanceIndex >= 0)
                 _nearestPlayer = _playerObjects.players[minDistanceIndex];
         }
     }

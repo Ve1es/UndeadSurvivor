@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using UnityEngine;
 
 public class DealDamage : NetworkBehaviour
@@ -9,6 +10,7 @@ public class DealDamage : NetworkBehaviour
     private string _player;
     [SerializeField]
     private KillsList _killsList;
+    public Action OnKillListUpdated;
 
     public void SetDamage(float damage)
     {
@@ -25,11 +27,14 @@ public class DealDamage : NetworkBehaviour
             if (other.GetComponent<Health>().ReduceHP(_damage))
             {
                 if (_killsList != null && _player != "[Player:None]")
-                { _killsList.AddString(_player); }
+                { 
+                    _killsList.AddString(_player);
+                }
             }
             Runner.Despawn(Object);
         }
     }
+
     public override void Spawned()
     {
         _player = Object.InputAuthority.ToString();

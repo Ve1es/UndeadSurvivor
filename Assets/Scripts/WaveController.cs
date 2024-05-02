@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class WaveController : NetworkBehaviour
 {
+    private const string PLAYER_TAG = "Player";
+    private const string ENEMY_TAG = "Enemy";
+    private const float DESPAWN_RADIUS = 100;
     private int _waveNumber;
     [SerializeField] private List<WaveData> _wavePool;
     [Networked] private TickTimer _timer { get; set; }
@@ -16,10 +19,10 @@ public class WaveController : NetworkBehaviour
     [SerializeField] private TMP_Text _gameRoundTimer;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private BuffSpawner _buffSpawner;
-    private float _waveDuration=0;
-    private float _breakTime=0;
-    private float _enemySpawnTime=0;
-    private float _buffSpawnTime=0;
+    private float _waveDuration;
+    private float _breakTime;
+    private float _enemySpawnTime;
+    private float _buffSpawnTime;
     private bool _isBreak;
     private bool _isWave;
     private List<NetworkPrefabRef> _waveEnemies;
@@ -44,16 +47,18 @@ public class WaveController : NetworkBehaviour
         }
         else
         {
+            _enemySpawner.StopSpawnEnemy();
+            _buffSpawner.StopSpawnBuff();
+            EndWaveKillAllEnemy();
             ///EndGame
         }
     }
-
-
     private void StartBreak()
     {
         _isBreak = true;
         _enemySpawner.StopSpawnEnemy();
         _buffSpawner.StopSpawnBuff();
+        EndWaveKillAllEnemy();
         //_timerBreak = TickTimer.CreateFromSeconds(Runner, _breakTime);
         _timer = TickTimer.CreateFromSeconds(Runner, _breakTime);
     }
@@ -69,16 +74,15 @@ public class WaveController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if(_isBreak)
-        {
-            _gameRoundTimer.text =
-              _gameRoundTimer.text = ConvertTimeFormat(_timer);
-        }
-        if(_isWave)
+        if (_isBreak)
         {
             _gameRoundTimer.text = ConvertTimeFormat(_timer);
         }
-        if(_timer.Expired(Runner)&&_isBreak)
+        if (_isWave)
+        {
+            _gameRoundTimer.text = ConvertTimeFormat(_timer);
+        }
+        if (_timer.Expired(Runner) && _isBreak)
         {
             StartFight();
         }
@@ -95,5 +99,17 @@ public class WaveController : NetworkBehaviour
         int minutes = Mathf.FloorToInt(Mathf.RoundToInt(time.RemainingTime(Runner) ?? 0) / 60);
         int seconds = Mathf.FloorToInt(Mathf.RoundToInt(time.RemainingTime(Runner) ?? 0) % 60);
         return string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void EndWaveKillAllEnemy()
+    {       
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, DESPAWN_RADIUS);
+        foreach (Collider2D enemyCollider in enemies)
+        {
+            if (enemyCollider.CompareTag(ENEMY_TAG))
+            {
+                enemyCollider.gameObject.GetComponent<Health>().ReduceHP(enemyCollider.gameObject.GetComponent<Health>().GetHP());
+            }
+        }
     }
 }

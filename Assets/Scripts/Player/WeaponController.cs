@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponController : NetworkBehaviour
 {
     private const string ENEMY_TAG = "Enemy";
-    private const float BULLET_SPEED = 4;
+    private const float BULLET_SPEED = 10;
     [SerializeField] private NetworkPrefabRef _bulletPrefab = NetworkPrefabRef.Empty;
     public Transform spawnBulletPoint;
     [Networked] public bool spawnedProjectile { get; set; }

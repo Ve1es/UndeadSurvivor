@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wave1
   m_EditorClassIdentifier: 
   _enemies:
-  - RawGuidValue: ced6a6bef2379ab4fb38a7104ddad230
+  - RawGuidValue: 25f63fdc56e0d5a4a8a3b51e7984caf0
   _buffs:
-  - RawGuidValue: cc33199a9d9f06542bd0d10b7a545288
-  _waveDuration: 30
-  _breakTime: 10
-  _enemySpawnTime: 5
+  - RawGuidValue: 9cbfcda873c09cd4aa207f696f23b0cc
+  _waveDuration: 10
+  _breakTime: 5
+  _enemySpawnTime: 1
   _bonusesSpawnTime: 5

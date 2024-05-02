@@ -26,7 +26,6 @@ public class CharacterMovementController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (_characterController.AcceptInput == false) return;
         if (Runner.TryGetInputForPlayer<CharacterInput>(Object.InputAuthority, out var input))
         {
             Move(input);

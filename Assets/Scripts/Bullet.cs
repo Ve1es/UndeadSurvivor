@@ -1,17 +1,15 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class Bullet : NetworkBehaviour
 {
     private float _speed;
     private Vector3 _flightDirection;
     private const float DEFAULT_FLIGHT_DISTANCE = 5;
+    private const float START_FLIGHT_DISTANCE = 0;
     private const float DEFAULT_SPEED = 4;
     private Vector3 _initialPosition;
-    private float _distanceTravelled = 0;
+    private float _distanceTravelled;
     private float _maxDistance;
 
     public void Init(Vector3 flightDirection, float flightDistance = DEFAULT_FLIGHT_DISTANCE, float speed = DEFAULT_SPEED)
@@ -20,7 +18,7 @@ public class Bullet : NetworkBehaviour
        _flightDirection = flightDirection;
         _initialPosition = transform.position;
         _maxDistance = flightDistance;
-        _distanceTravelled = 0;
+        _distanceTravelled = START_FLIGHT_DISTANCE;
     }
     public void Init(float flightDistance = DEFAULT_FLIGHT_DISTANCE, float speed = DEFAULT_SPEED)
     {
@@ -28,7 +26,7 @@ public class Bullet : NetworkBehaviour
         _flightDirection = transform.right;
         _initialPosition = transform.position;
         _maxDistance = flightDistance;
-        _distanceTravelled = 0;
+        _distanceTravelled = START_FLIGHT_DISTANCE;
     }
 
     public override void FixedUpdateNetwork()

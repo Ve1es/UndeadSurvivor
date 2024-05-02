@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponName: Pistol
   _timeBetweenShots: 0.7
-  _damage: 5
+  _damage: 10
   _ammo: 15
   _flightDistance: 3
   _bulletPerShot: 1

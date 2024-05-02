@@ -3,7 +3,10 @@ using Random = UnityEngine.Random;
 
 public class PlayerData : MonoBehaviour
 {
+    private const int DEFAULT_CHARACTER_NUMBER = 0;
     private string _nickName = null;
+    [SerializeField]
+    private int _playerCharacterNumber = DEFAULT_CHARACTER_NUMBER;
 
     private void Start()
     {
@@ -30,6 +33,15 @@ public class PlayerData : MonoBehaviour
         }
 
         return _nickName;
+    }
+    public void SetCharacter(int number)
+    {
+        _playerCharacterNumber = number;
+    }
+
+    public int GetCharacter()
+    {
+        return _playerCharacterNumber;
     }
 
     public static string GetRandomNickName()

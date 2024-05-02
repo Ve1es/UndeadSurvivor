@@ -12,7 +12,9 @@ public class WaveController : NetworkBehaviour
     private const float DESPAWN_RADIUS = 100;
     private int _waveNumber;
     [SerializeField] private List<WaveData> _wavePool;
+    [SerializeField] private GameStateController _gameStateController;
     [Networked] private TickTimer _timer { get; set; }
+    [SerializeField] private AllPlayerTimer _allPlayerTimer;
     //[Networked] private TickTimer _timerBreak { get; set; }
     //[Networked] private TickTimer _timerWave { get; set; }
 
@@ -74,11 +76,15 @@ public class WaveController : NetworkBehaviour
     {
         if (_isBreak)
         {
-            _gameRoundTimer.text = ConvertTimeFormat(_timer);
+            //_allPlayerTimer.ChangeTimerUI(ConvertTimeFormat(_timer));
+            //_gameRoundTimer.text = ConvertTimeFormat(_timer);
+            RPC_ChangeTimer(ConvertTimeFormat(_timer));
         }
         if (_isWave)
         {
-            _gameRoundTimer.text = ConvertTimeFormat(_timer);
+            //_allPlayerTimer.ChangeTimerUI(ConvertTimeFormat(_timer));
+            //_gameRoundTimer.text = ConvertTimeFormat(_timer);
+            RPC_ChangeTimer(ConvertTimeFormat(_timer));
         }
         if (_timer.Expired(Runner) && _isBreak)
         {
@@ -96,6 +102,13 @@ public class WaveController : NetworkBehaviour
         _enemySpawner.StopSpawnEnemy();
         _buffSpawner.StopSpawnBuff();
         EndWaveKillAllEnemy();
+        _gameStateController.GameHasEnded();
+    }
+
+    [Rpc]
+    public void RPC_ChangeTimer(string time)
+    {
+        _gameRoundTimer.text = time;
     }
     private string ConvertTimeFormat(TickTimer time)
     {

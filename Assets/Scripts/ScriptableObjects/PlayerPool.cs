@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +5,8 @@ using UnityEngine;
 public class PlayerPool : ScriptableObject
 {
     public List<GameObject> players = new List<GameObject>();
+    public List<string> playersNicknames = new List<string>();
+    public List<string> playersInputsNumbers = new List<string>();
 
     public void RegisterPlayer(GameObject playerTransform)
     {
@@ -14,6 +15,15 @@ public class PlayerPool : ScriptableObject
             players.Add(playerTransform);
         }
     }
+    public void RegisterPlayerNick(string playerNick)
+    {
+        playersNicknames.Add(playerNick);
+    }
+    public void RegisterPlayerInputNumber(string playerInputNumber)
+    {
+        playersInputsNumbers.Add(playerInputNumber);
+    }
+
 
     public void UnregisterPlayer(GameObject playerTransform)
     {
@@ -23,5 +33,7 @@ public class PlayerPool : ScriptableObject
     public void ClearPool()
     {
         players.Clear();
+        playersNicknames.Clear();
+        playersInputsNumbers.Clear();
     }
 }

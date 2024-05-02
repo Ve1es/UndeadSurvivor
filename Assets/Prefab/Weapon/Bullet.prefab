@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _killsList: {fileID: 11400000, guid: 3089bf78e289e3042a921a462b303c24, type: 2}
+  _playerDamageList: {fileID: 11400000, guid: 355f73f429603414788beff5f61a9dd2, type: 2}
 --- !u!114 &-4178629419986006438
 MonoBehaviour:
   m_ObjectHideFlags: 0

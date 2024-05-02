@@ -23,6 +23,7 @@ public class Health : NetworkBehaviour
         _healthPoint -= damage;
         if (_healthPoint <= 0)
         {
+            
             _animator.SetBool("Dead", true);
             Runner.Despawn(Object);
             return true;

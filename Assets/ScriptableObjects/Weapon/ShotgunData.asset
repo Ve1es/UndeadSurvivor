@@ -19,4 +19,4 @@ MonoBehaviour:
   _flightDistance: 4
   _bulletPerShot: 5
   _weaponSprite: {fileID: 1772703093, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
-  _spread: 10
+  _spread: 20

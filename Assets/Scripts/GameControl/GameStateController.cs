@@ -1,34 +1,30 @@
 using System;
 using System.Collections.Generic;
 using Fusion;
-using TMPro;
 using UnityEngine;
 public class GameStateController : NetworkBehaviour
 {
     enum GameState
     {
         Starting,
+        WaitingPlayerConnection,
         Running,
-        Ending
+        Ending,
+        ResultShow
     }
-    ///Displays///
-    [SerializeField] private GameObject _kills;
-    [SerializeField] private GameObject _hp;
-    [SerializeField] private GameObject _ammo;
-    [SerializeField] private GameObject _joystickRight;
-    [SerializeField] private GameObject _joystickLeft;
-    [SerializeField] private GameObject _loading;
-
-    [SerializeField] private TMP_Text _gameRoundTimer;
-    [SerializeField] private PlayerPool _playerPool;
     
 
 
-    [Networked] private TickTimer _timer { get; set; }
+
+    [SerializeField] private PlayerPool _playerPool;
     [Networked] private GameState _gameState { get; set; }
 
     [SerializeField] private WaveController _waveController;
     [SerializeField] private KillsList _killsList;
+    [SerializeField] private PlayerDamageList _playerDamageList;
+    [SerializeField] private GameObject _endGameResult;
+    [SerializeField] private GameObject _startSoloGame;
+    
     private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
     private LocalInputPoller _localInputPoller;
     public JoystickMove joysticMove;
@@ -41,12 +37,6 @@ public class GameStateController : NetworkBehaviour
     }
     public override void Spawned()
     {
-        // --- This section is for all information which has to be locally initialized based on the networked game state
-        // --- when a CLIENT joins a game
-
-       // _startEndDisplay.gameObject.SetActive(true);
-       // _ingameTimerDisplay.gameObject.SetActive(false);
-
         // If the game has already started, find all currently active players' PlayerDataNetworked component Ids
         if (_gameState != GameState.Starting)
         {
@@ -68,6 +58,8 @@ public class GameStateController : NetworkBehaviour
         //_timer = TickTimer.CreateFromSeconds(Runner, _startDelay);
         
         _playerPool.ClearPool();
+        _killsList.ClearPool();
+        _playerDamageList.ClearPool();
     }
 
     public override void FixedUpdateNetwork()
@@ -76,13 +68,16 @@ public class GameStateController : NetworkBehaviour
         switch (_gameState)
         {
             case GameState.Starting:
-                UpdateStartingDisplay();
+                UpdateStarting();
+                break;
+            case GameState.WaitingPlayerConnection:
+                UpdateWaiting();
                 break;
             case GameState.Running:
-                UpdateRunningDisplay();
+                UpdateRunning();
                 break;
             case GameState.Ending:
-                UpdateEndingDisplay();
+                UpdateEnding();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -91,7 +86,7 @@ public class GameStateController : NetworkBehaviour
 
 
 
-    private void UpdateStartingDisplay()
+    private void UpdateStarting()
     {
         // --- Host & Client
         // Display the remaining time until the game starts in seconds (rounded down to the closest full second)
@@ -104,27 +99,30 @@ public class GameStateController : NetworkBehaviour
 
         // Starts the Spaceship and Asteroids spawners once the game start delay has expired
         FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
-        _killsList.playersKills.Clear();
+        
 
 
          // Switches to the Running GameState and sets the time to the length of a game session
-         _gameState = GameState.Running;
-        _waveController.StartWaves();
+         _gameState = GameState.WaitingPlayerConnection;
+        
         //_timer = TickTimer.CreateFromSeconds(Runner, 100);
 
         //_timer = TickTimer.CreateFromSeconds(Runner, _gameSessionLength);
     }
 
-    private void UpdateRunningDisplay()
+    private void UpdateWaiting()
     {
-        
-        ////int minutes = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) / 60);
-        ////int seconds = Mathf.FloorToInt(Mathf.RoundToInt(_timer.RemainingTime(Runner) ?? 0) % 60);
-        ////string a = string.Format("{0:00}:{1:00}", minutes, seconds);
-        ////_gameRoundTimer.text = a;
-
-
-
+        if (_playerPool.players.Count >= 2)
+        {
+            
+            _gameState = GameState.Running;
+            _waveController.StartWaves();
+        }
+    }
+    private void UpdateRunning()
+    {
+        if(_startSoloGame.activeSelf)
+        RPC_CloseSoloGameButton();
         // --- Host & Client
         // Display the remaining time until the game ends in seconds (rounded down to the closest full second)
         //_startEndDisplay.gameObject.SetActive(false);
@@ -137,7 +135,7 @@ public class GameStateController : NetworkBehaviour
         //FindObjectOfType<EnemySpawner>().SpawnEnemyWave();
     }
 
-    private void UpdateEndingDisplay()
+    private void UpdateEnding()
     {
         // --- Host & Client
         // Display the results and
@@ -152,13 +150,26 @@ public class GameStateController : NetworkBehaviour
         // --- Host
         // Shutdowns the current game session.
         // The disconnection behaviour is found in the OnServerDisconnect.cs script
-        if (_timer.ExpiredOrNotRunning(Runner) == false) return;
 
-        Runner.Shutdown();
+        //Runner.Shutdown();
     }
-    private void GameHasEnded()
+
+    public void StartSoloGame()
     {
-        //throw new NotImplementedException();
+        RPC_CloseSoloGameButton();
+         _gameState = GameState.Running;
+        _waveController.StartWaves();
+    }
+    [Rpc]
+    public void RPC_CloseSoloGameButton() 
+    {
+        _startSoloGame.SetActive(false);
+    }
+    public void GameHasEnded()
+    {  
+        _endGameResult.GetComponent<EndGameStatistics>().DisplayStatistic();
+        _gameState = GameState.Ending;
+
     }
     public void TrackNewPlayer(NetworkBehaviourId playerDataNetworkedId)
     {

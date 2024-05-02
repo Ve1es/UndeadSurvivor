@@ -17,4 +17,4 @@ MonoBehaviour:
   _movingSpeed: 3
   _damage: 2
   _attackDistance: 1
-  _hp: 3
+  _hp: 10

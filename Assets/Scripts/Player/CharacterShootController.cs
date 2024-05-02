@@ -38,7 +38,6 @@ public class CharacterShootController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (_characterController.AcceptInput == false) return;
         if (Runner.TryGetInputForPlayer<CharacterInput>(Object.InputAuthority, out var input))
         {
             WeaponMove(input);

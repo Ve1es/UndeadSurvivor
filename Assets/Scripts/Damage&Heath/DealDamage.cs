@@ -10,6 +10,8 @@ public class DealDamage : NetworkBehaviour
     private string _player;
     [SerializeField]
     private KillsList _killsList;
+    [SerializeField]
+    private PlayerDamageList _playerDamageList;
     public Action OnKillListUpdated;
 
     public void SetDamage(float damage)
@@ -30,6 +32,10 @@ public class DealDamage : NetworkBehaviour
                 { 
                     _killsList.AddString(_player);
                 }
+            }
+            if (_playerDamageList != null && _player != "[Player:None]")
+            {
+                _playerDamageList.AddString(_player, _damage.ToString());
             }
             Runner.Despawn(Object);
         }

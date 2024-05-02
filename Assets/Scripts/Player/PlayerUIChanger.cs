@@ -2,7 +2,7 @@ using Fusion;
 using TMPro;
 using UnityEngine;
 
-public class UIController : NetworkBehaviour
+public class PlayerUIChanger : NetworkBehaviour
 {
     [SerializeField] private TMP_Text _hp;
     [SerializeField] private TMP_Text _ammo;

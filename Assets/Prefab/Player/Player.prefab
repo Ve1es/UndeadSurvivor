@@ -216,8 +216,11 @@ MonoBehaviour:
     _length: 0
     _data:
       Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  _Lives: 0
-  _Score: 0
+  _PlayerInputNumber:
+    _length: 0
+    _data:
+      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _playerCharacterNumber: 0
 --- !u!114 &8493099618894276962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +310,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerPool: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
+  _playerSprite: {fileID: 2609276087168753560}
+  _playerAnimator: {fileID: 1688583631173672317}
   _playerStats: {fileID: 11400000, guid: d55f1f066e6dd7a49be0fc89166d38aa, type: 2}
+  _characterList: {fileID: 11400000, guid: c2aecb413db60a1408490219a8485796, type: 2}
 --- !u!114 &2959520468917703445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ef68308953dd2498879df319f0430e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerKills: 0
+  _playerKills: 0
   _killList: {fileID: 11400000, guid: 3089bf78e289e3042a921a462b303c24, type: 2}
 --- !u!114 &3808615838577686480
 MonoBehaviour:
@@ -359,8 +365,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac60be6b04d4ec14788848174778761d, type: 2}
   - {fileID: 11400000, guid: c1da0bb2a8c50924da4937f9e419732e, type: 2}
   - {fileID: 11400000, guid: 83938881b0aebe74b93edf578588ddbf, type: 2}
-  _ammo: 0
-  _maxAmmo: 0
+  __maxAmmo: 0
 --- !u!1 &2609276087168753560
 GameObject:
   m_ObjectHideFlags: 0

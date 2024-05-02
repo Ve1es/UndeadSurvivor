@@ -18,7 +18,7 @@ MonoBehaviour:
   _buffs:
   - RawGuidValue: 9cbfcda873c09cd4aa207f696f23b0cc
   - RawGuidValue: ef8a7c5fddfc51a48b7feab46e47da82
-  _waveDuration: 18
-  _breakTime: 3
-  _enemySpawnTime: 2
+  _waveDuration: 180
+  _breakTime: 30
+  _enemySpawnTime: 1
   _bonusesSpawnTime: 5

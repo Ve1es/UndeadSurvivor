@@ -66,7 +66,8 @@ public class RegularZombie : Enemy
         _distances = new List<float>();
         if (_playerObjects.players != null)
         {
-            for (int i = _playerObjects.players.Count - 1; i >= 0; i--)
+
+            for (int i = 0; i <= _playerObjects.players.Count - 1; i++)
             {
                 if (_playerObjects.players[i] == null)
                 {

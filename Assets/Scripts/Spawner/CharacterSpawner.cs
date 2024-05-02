@@ -66,6 +66,8 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         playerObject.GetComponent<WeaponController>().weaponNumber = weaponNumberList[weaponIndex];
         weaponNumberList.RemoveAt(weaponIndex);
         _playerPool.RegisterPlayer(playerObject.gameObject);
+        _playerPool.RegisterPlayerNick(playerObject.gameObject.GetComponent<PlayerDataNetworked>().NickName.ToString());
+        _playerPool.RegisterPlayerInputNumber(playerObject.gameObject.GetComponent<PlayerDataNetworked>().PlayerInputNumber.ToString());
 
         //playerObject.GetComponent<WeaponController>().AppointWeapon();
         //playerObject.GetComponent<WeaponController>()._playersWeaponSprite.sprite = weaponList[weaponIndex].WeaponSprite;

@@ -16,7 +16,7 @@ MonoBehaviour:
   _timeBetweenShots: 0.3
   _damage: 2
   _ammo: 30
-  _flightDistance: 5
+  _flightDistance: 10
   _bulletPerShot: 1
   _weaponSprite: {fileID: -144335857, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   _spread: 0

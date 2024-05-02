@@ -3,7 +3,7 @@ using Fusion;
 
 public class PlayerUIController : NetworkBehaviour
 {
-    UIController UICanvas;
+    PlayerUIChanger UICanvas;
     [SerializeField] private Health _hp;
     [SerializeField] private WeaponController _ammo;
     [SerializeField] private KillsCounter _kills;
@@ -15,7 +15,7 @@ public class PlayerUIController : NetworkBehaviour
     {
         if (HasInputAuthority)
         {
-            UICanvas = FindObjectOfType<UIController>();
+            UICanvas = FindObjectOfType<PlayerUIChanger>();
             _currentKills = _kills.playerKills;
         }
     }

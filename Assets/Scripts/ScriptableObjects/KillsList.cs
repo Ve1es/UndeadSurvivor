@@ -9,4 +9,8 @@ public class KillsList : ScriptableObject
     {
         playersKills.Add(info);
     }
+    public void ClearPool()
+    {
+        playersKills.Clear();
+    }
 }

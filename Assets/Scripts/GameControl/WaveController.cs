@@ -47,9 +47,7 @@ public class WaveController : NetworkBehaviour
         }
         else
         {
-            _enemySpawner.StopSpawnEnemy();
-            _buffSpawner.StopSpawnBuff();
-            EndWaveKillAllEnemy();
+            EndGameBehaviour();
             ///EndGame
         }
     }
@@ -93,7 +91,12 @@ public class WaveController : NetworkBehaviour
             StartWave();
         }
     }
-
+    public void EndGameBehaviour()
+    {
+        _enemySpawner.StopSpawnEnemy();
+        _buffSpawner.StopSpawnBuff();
+        EndWaveKillAllEnemy();
+    }
     private string ConvertTimeFormat(TickTimer time)
     {
         int minutes = Mathf.FloorToInt(Mathf.RoundToInt(time.RemainingTime(Runner) ?? 0) / 60);

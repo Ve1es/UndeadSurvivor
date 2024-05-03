@@ -25,7 +25,7 @@ public class PumpedZombie : Enemy
         _sm = new StateMachine();
         _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
         _deathState = new DeathState(gameObject);
-        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState);
+        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState, gameObject);
         _sm.Initialize(_movementState);
         StartCoroutine(NearestPlayer());
     }

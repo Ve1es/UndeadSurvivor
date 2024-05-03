@@ -11,13 +11,11 @@ public class ChooseCharacterController : MonoBehaviour
     [SerializeField]
     private GameObject[] _characterBack;
     [SerializeField] private PlayerData _playerDataPrefab;
-    //[SerializeField]
-    //private GameObject _characterBackTwo;
-    //[SerializeField]
-    //private GameObject _characterBackThree;
-    //[SerializeField]
-    //private GameObject _characterBackFour;
 
+    public void Start()
+    {
+        PlayerPrefs.SetInt("PlayerSkin", _characterNumber);
+    }
     public void ChangeCharacter(int number)
     {
         _characterNumber = number;
@@ -35,7 +33,8 @@ public class ChooseCharacterController : MonoBehaviour
     }
     public void ChooseCharacter()
     {
-        _playerDataPrefab.SetCharacter(_characterNumber);
+        PlayerPrefs.SetInt("PlayerSkin", _characterNumber);
+        //_playerDataPrefab.SetCharacter(_characterNumber);
     }
     public void CloseChoosePanel()
     {

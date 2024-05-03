@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DealDamage : NetworkBehaviour
 {
+    private const string NON_PLAYER_INPUT = "[Player:None]";
     private static float DEFAULTDAMAGE = 0;
     private float _damage = DEFAULTDAMAGE;
     private string _goalTag;
@@ -28,12 +29,12 @@ public class DealDamage : NetworkBehaviour
         {
             if (other.GetComponent<Health>().ReduceHP(_damage))
             {
-                if (_killsList != null && _player != "[Player:None]")
+                if (_killsList != null && _player != NON_PLAYER_INPUT)
                 { 
                     _killsList.AddString(_player);
                 }
             }
-            if (_playerDamageList != null && _player != "[Player:None]")
+            if (_playerDamageList != null && _player != NON_PLAYER_INPUT)
             {
                 _playerDamageList.AddString(_player, _damage.ToString());
             }

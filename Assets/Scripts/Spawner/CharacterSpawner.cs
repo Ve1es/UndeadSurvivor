@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     // References to the NetworkObject prefab to be used for the players' spaceships.
-    [SerializeField] private NetworkPrefabRef _characterNetworkPrefab = NetworkPrefabRef.Empty;
+    [SerializeField] private NetworkPrefabRef[] _characterNetworkPrefabs;
     [SerializeField] private PlayerPool _playerPool;
     private bool _gameIsReady = false;
     private GameStateController _gameStateController = null;
@@ -15,6 +15,25 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     [SerializeField] private GameObject[] _spawnPoints;
     [SerializeField] private List<WeaponData> weaponList;
     private List<int> weaponNumberList;
+
+    [SerializeField]
+    public Dictionary<PlayerRef, int> _selectedCharacters = new Dictionary<PlayerRef, int>();
+
+    public void AddPlayerCharacter(int characterNumber, PlayerRef player)
+    {
+            if (_selectedCharacters.ContainsKey(player))
+            {
+                _selectedCharacters[player] = characterNumber;
+            }
+            else
+            {
+                _selectedCharacters.Add(player, characterNumber);
+            }
+        //List<string> playerList = new List<string>();
+        //playerList.Add(characterNumber);
+        //playerList.Add(inputAuthority);
+        //_playersCharacter.Add(playerList);
+    }
 
     public override void Spawned()
     {
@@ -33,18 +52,22 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     // The spawner is started when the GameStateController switches to GameState.Running.
     public void StartCharacterSpawner(GameStateController gameStateController)
     {
-        _gameIsReady = true;
-        _gameStateController = gameStateController;
-        foreach (var player in Runner.ActivePlayers)
+        if (HasStateAuthority)
         {
-            SpawnCharacter(player);           
+            _gameIsReady = true;
+            _gameStateController = gameStateController;
+            foreach (var player in Runner.ActivePlayers)
+            {
+                SpawnCharacter(player);
+            }
         }
     }
 
     public void PlayerJoined(PlayerRef player)
     {
-        if (_gameIsReady == false) return;
-        SpawnCharacter(player);
+        //if (_gameIsReady == false) return;
+        //SpawnCharacter(player);
+        //_playerList.Add(player);
     }
 
     // Spawns a spaceship for a player.
@@ -54,9 +77,9 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         // Modulo is used in case there are more players than spawn points.
         int index = player.PlayerId % PLAYER_COUNT;
         var spawnPosition = _spawnPoints[index].transform.position;
-
-
-        var playerObject = Runner.Spawn(_characterNetworkPrefab, spawnPosition, Quaternion.identity, player);
+        //int character = int.Parse(_playersCharacter[i][0]);
+        int character = _selectedCharacters[player];
+        var playerObject = Runner.Spawn(_characterNetworkPrefabs[character], spawnPosition, Quaternion.identity, player);
         // Set Player Object to facilitate access across systems.
         Runner.SetPlayerObject(player, playerObject);
         
@@ -65,13 +88,9 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         int weaponIndex = Random.Range(0, weaponList.Count - 1);
         playerObject.GetComponent<WeaponController>().weaponNumber = weaponNumberList[weaponIndex];
         weaponNumberList.RemoveAt(weaponIndex);
+
         _playerPool.RegisterPlayer(playerObject.gameObject);
-        _playerPool.RegisterPlayerNick(playerObject.gameObject.GetComponent<PlayerDataNetworked>().NickName.ToString());
-        _playerPool.RegisterPlayerInputNumber(playerObject.gameObject.GetComponent<PlayerDataNetworked>().PlayerInputNumber.ToString());
-
-        //playerObject.GetComponent<WeaponController>().AppointWeapon();
-        //playerObject.GetComponent<WeaponController>()._playersWeaponSprite.sprite = weaponList[weaponIndex].WeaponSprite;
-
+        _playerPool.RegisterPlayerInputNumber(player.ToString());
     }
 
     // Despawns the spaceship associated with a player when their client leaves the game session.

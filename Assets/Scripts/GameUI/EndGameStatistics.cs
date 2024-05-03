@@ -39,7 +39,7 @@ public class EndGameStatistics : NetworkBehaviour
         {
             playersCount = _playerPool.playersInputsNumbers.Count;
             string playerOneInput = _playerPool.playersInputsNumbers[PLAYER_ONE_NUMBER_IN_LIST];
-            playerOneName = _playerPool.playersNicknames[PLAYER_ONE_NUMBER_IN_LIST];
+            playerOneName = playerOneInput;
             playerOneKills = KillCount(playerOneInput).ToString();
             playerOneDamage = DamageCount(playerOneInput).ToString();
 
@@ -47,7 +47,7 @@ public class EndGameStatistics : NetworkBehaviour
             if (playersCount > 1)
             {
                 string playerTwoInput = _playerPool.playersInputsNumbers[PLAYER_TWO_NUMBER_IN_LIST];
-                playerTwoName = _playerPool.playersNicknames[PLAYER_TWO_NUMBER_IN_LIST];
+                playerTwoName = playerTwoInput;
                 playerTwoKills = KillCount(playerTwoInput).ToString();
                 playerTwoDamage = DamageCount(playerTwoInput).ToString();
             }

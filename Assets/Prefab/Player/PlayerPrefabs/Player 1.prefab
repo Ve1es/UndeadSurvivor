@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 5845032628242850921}
   - component: {fileID: 3808615838577686480}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2507824040
+  SortKey: 659078971
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -212,14 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d18bc266b391f5a4ba50cf246cf1e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _NickName:
-    _length: 0
-    _data:
-      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  _PlayerInputNumber:
-    _length: 0
-    _data:
-      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _NickName: 
+  _PlayerInputNumber: 
   _playerCharacterNumber: 0
 --- !u!114 &8493099618894276962
 MonoBehaviour:
@@ -283,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeee509731fb2b74d890665d8ebe8c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerPool: {fileID: 0}
 --- !u!114 &7525502785667825915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9b1e44655dc594f81fd0714034c419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deathPrefab:
+    RawGuidValue: 6bb4a1f1d4e4bc748b6aa0b0fc1b94d7
   _animator: {fileID: 1688583631173672317}
   __healthPoint: 10
 --- !u!114 &5909682941149077166
@@ -312,6 +309,7 @@ MonoBehaviour:
   _playerPool: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _playerSprite: {fileID: 2609276087168753560}
   _playerAnimator: {fileID: 1688583631173672317}
+  _playerCamera: {fileID: -6799881331775675790}
   _playerStats: {fileID: 11400000, guid: d55f1f066e6dd7a49be0fc89166d38aa, type: 2}
   _characterList: {fileID: 11400000, guid: c2aecb413db60a1408490219a8485796, type: 2}
 --- !u!114 &2959520468917703445
@@ -441,7 +439,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -1746337116, guid: 99a24620d31e5ce4e823c32d11e17c2c, type: 3}
+  m_Sprite: {fileID: -150523396, guid: 0c187a32c5bde4747be8d00770b07403, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -478,7 +476,7 @@ Animator:
   m_GameObject: {fileID: 2609276087168753560}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c7b33bdebaac3e54681eedeb90317e91, type: 2}
+  m_Controller: {fileID: 9100000, guid: 95b11b662fa4b0947998f27859d4afb5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

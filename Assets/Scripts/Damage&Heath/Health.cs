@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Health : NetworkBehaviour
 {
+    [SerializeField] private NetworkPrefabRef _deathPrefab;
     [SerializeField] private Animator _animator;
     [Networked]
     [SerializeField]
@@ -23,14 +24,18 @@ public class Health : NetworkBehaviour
         _healthPoint -= damage;
         if (_healthPoint <= 0)
         {
-            
-            _animator.SetBool("Dead", true);
+            Runner.Spawn(_deathPrefab, transform.position, Quaternion.identity);
             Runner.Despawn(Object);
             return true;
         }
-        _animator.SetTrigger("Hit");
+        RPC_ShowHitEffect();
         return false;
         
+    }
+    [Rpc]
+    private void RPC_ShowHitEffect()
+    {
+        _animator.SetTrigger("Hit");
     }
     public void AddHP(float healing)
     {

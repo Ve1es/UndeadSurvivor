@@ -180,7 +180,7 @@ MonoBehaviour:
   RenderThresholds:
     UseEnergy: 1
     Position: 0.01
-    Rotation: 0.01
+    Rotation: 0
     Scale: 0.01
 --- !u!114 &1906013716731411444
 MonoBehaviour:

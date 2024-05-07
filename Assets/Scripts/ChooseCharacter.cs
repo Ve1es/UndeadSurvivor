@@ -6,6 +6,7 @@ public class ChooseCharacter : NetworkBehaviour
     private const int DEFAULT_CHARACTER_NUMBER = 0;
     private int _characterNumber = DEFAULT_CHARACTER_NUMBER;
     [SerializeField] private GameObject[] _characterBack;
+    [SerializeField] private GameObject[] _characterChooseButtons;
     [SerializeField] private CharacterSpawner _spawn;
 
     [Rpc]
@@ -31,6 +32,18 @@ public class ChooseCharacter : NetworkBehaviour
             else
             {
                 _characterBack[i].SetActive(true);
+            }
+        }
+    }
+
+    public void CloseAllNonChooseCharacters()
+    {
+        for (int i = 0; i < _characterChooseButtons.Length; i++)
+        {
+            if (i != _characterNumber)
+            {
+                _characterBack[i].SetActive(false);
+                _characterChooseButtons[i].SetActive(false);
             }
         }
     }

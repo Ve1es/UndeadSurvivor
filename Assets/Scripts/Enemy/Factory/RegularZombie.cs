@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class RegularZombie : Enemy
 {
+    private const float ANGLE0 = 0;
+    private const float ANGLE90 = 90;
+    private const float ANGLE180 = 180;
     private const float ATTACK_ANIMATION_DURATION = 0.5f;
     private StateMachine _sm;
     private MovementState _movementState;
@@ -56,14 +59,13 @@ public class RegularZombie : Enemy
     }
     public void LookAtPlayer()
     {
-
         if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
         {
             _currentFlipX = false;
             if (_currentFlipX != _flipX)
             {
                 _flipX = false;
-                RPC_Rotate();
+                  Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
             }
         }
         else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
@@ -72,7 +74,7 @@ public class RegularZombie : Enemy
             if (_currentFlipX != _flipX)
             {
                 _flipX = true;
-                RPC_Rotate();
+                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
             }
         }
     }

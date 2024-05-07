@@ -17,7 +17,7 @@ public class CharacterPlayerController : NetworkBehaviour
         gameObject.GetComponent<Health>().SetHP(_playerStats.HP);
         gameObject.GetComponent<CharacterMovementController>().SetSpeed(_playerStats.MovingSpeed);
         RPC_AddPlayerInList();
-        
+        _playerSprite.SetActive(true);
     }
     [Rpc]
     public void RPC_AddPlayerInList()

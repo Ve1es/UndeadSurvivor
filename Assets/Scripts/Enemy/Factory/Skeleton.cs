@@ -5,6 +5,9 @@ using Fusion;
 
 public class Skeleton : Enemy
 {
+    private const float ANGLE0 = 0;
+    private const float ANGLE90 = 90;
+    private const float ANGLE180 = 180;
     private StateMachine _sm;
     private MovementState _movementState;
     private DeathState _deathState;
@@ -53,14 +56,20 @@ public class Skeleton : Enemy
         if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
         {
             _currentFlipX = false;
-            if (_currentFlipX!= _flipX)
-            _flipX = false;
+            if (_currentFlipX != _flipX)
+            {
+                _flipX = false;
+                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+            }
         }
         else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
         {
             _currentFlipX = true;
             if (_currentFlipX != _flipX)
-                _flipX =true;
+            {
+                _flipX = true;
+                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+            }
         }
     }
     [Rpc]

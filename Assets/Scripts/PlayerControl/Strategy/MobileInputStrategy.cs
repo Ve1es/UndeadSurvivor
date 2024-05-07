@@ -1,5 +1,4 @@
-
-using ExitGames.Client.Photon.StructWrapping;
+using UnityEngine;
 
 public class MobileInputStrategy : IInputStrategy
 {

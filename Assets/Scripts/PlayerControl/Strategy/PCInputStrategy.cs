@@ -1,4 +1,4 @@
-using ExitGames.Client.Photon.StructWrapping;
+
 using UnityEngine;
 
 public class PCInputStrategy : IInputStrategy

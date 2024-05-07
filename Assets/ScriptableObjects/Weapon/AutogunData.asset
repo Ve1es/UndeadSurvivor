@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponName: Autogun
   _timeBetweenShots: 0.3
-  _damage: 2
+  _damage: 3
   _ammo: 30
   _flightDistance: 10
   _bulletPerShot: 1

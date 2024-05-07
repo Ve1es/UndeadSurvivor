@@ -50,12 +50,13 @@ public class CharacterMovementController : NetworkBehaviour
     {
         Vector3 movement = new Vector3(input.MoveHorizontalInput * _movementSpeed, input.MoveVerticalInput * _movementSpeed, 0f);
         _rigidbody.velocity = movement;
+        Debug.Log(input.Shoot);
         if (!input.Shoot)
         {
             float angleRadians = Mathf.Atan2(input.MoveVerticalInput, input.MoveHorizontalInput);
             float angleDegrees = angleRadians * Mathf.Rad2Deg;
             _angleReflected = angleDegrees - (angleDegrees - ANGLE90) * ANGLE_REFLECTED_CONSTANT;
-
+            //Debug.Log(angleDegrees);
             if (angleDegrees > ANGLE90 || angleDegrees < -ANGLE90)
             {
                 if (player.transform.localRotation.y != ANGLE180)

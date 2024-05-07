@@ -88,7 +88,7 @@ public class GameStateController : NetworkBehaviour
     {
         if (_characterSpawner._selectedCharacters != null)
         {
-            if (_characterSpawner._selectedCharacters.Count >= 2)
+            if (_characterSpawner._selectedCharacters.Count >= 1)
             {
                 _characterSpawner.StartCharacterSpawner(this);
 

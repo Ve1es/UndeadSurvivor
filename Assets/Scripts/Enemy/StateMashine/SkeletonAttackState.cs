@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SkeletonAttackState : IEnemyState
 {
+    private const string PLAYER_TAG = "Player";
     private Enemy _monstrController;
     private GameObject _target;
     private GameObject _bullet;
@@ -11,7 +12,6 @@ public class SkeletonAttackState : IEnemyState
     private float _attackDamage;
     private float _timeBetweenAttack;
     private bool _canAttack;
-    private const string PLAYER_TAG = "Player";
     
     public SkeletonAttackState(GameObject himself, EnemyData _enemyData, GameObject bullet, Transform bulletSpawnPoint, Enemy monstrController)
     {

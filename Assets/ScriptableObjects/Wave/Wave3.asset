@@ -16,11 +16,12 @@ MonoBehaviour:
   - RawGuidValue: 06b745b47420bb64cb679db4c4eca060
   - RawGuidValue: 25f63fdc56e0d5a4a8a3b51e7984caf0
   - RawGuidValue: ced6a6bef2379ab4fb38a7104ddad230
+  - RawGuidValue: ced6a6bef2379ab4fb38a7104ddad230
   _buffs:
   - RawGuidValue: 9cbfcda873c09cd4aa207f696f23b0cc
   - RawGuidValue: ef8a7c5fddfc51a48b7feab46e47da82
   - RawGuidValue: cc33199a9d9f06542bd0d10b7a545288
-  _waveDuration: 300
-  _breakTime: 30
+  _waveDuration: 30
+  _breakTime: 5
   _enemySpawnTime: 1
   _bonusesSpawnTime: 5

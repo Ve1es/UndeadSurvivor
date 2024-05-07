@@ -255,12 +255,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62abf815f6b07047b409d734fedeff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 3304175187307639049}
+  _nearestPlayerDistance: 0
   _anim: {fileID: 2365252486572671070}
   _playerObjects: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _enemyData: {fileID: 11400000, guid: 043d13d4fea6622498c60037bf246cef, type: 2}
   _hp: {fileID: 5639530280390358903}
   _attack: {fileID: 5982758667840379001}
-  _nearestPlayerDistance: 0
 --- !u!1 &5982758667840379001
 GameObject:
   m_ObjectHideFlags: 0

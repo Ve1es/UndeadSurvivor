@@ -5,9 +5,7 @@ using UnityEngine;
 public class NetworkObjectPoolDefault : NetworkObjectProviderDefault
 {
     [Tooltip("The objects to be pooled, leave it empty to pool every Network Object spawned")]
-    [SerializeField]
-    private List<NetworkObject> _poolableObjects;
-
+    [SerializeField] private List<NetworkObject> _poolableObjects;
     private Dictionary<NetworkObjectTypeId, Stack<NetworkObject>> _free = new();
 
     protected override NetworkObject InstantiatePrefab(NetworkRunner runner, NetworkObject prefab)

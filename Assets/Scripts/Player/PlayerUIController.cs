@@ -3,7 +3,7 @@ using Fusion;
 
 public class PlayerUIController : NetworkBehaviour
 {
-    PlayerUIChanger UICanvas;
+    private PlayerUIChanger UICanvas;
     [SerializeField] private Health _hp;
     [SerializeField] private WeaponController _ammo;
     [SerializeField] private KillsCounter _kills;

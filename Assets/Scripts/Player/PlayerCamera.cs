@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 public class PlayerCamera : NetworkBehaviour
 {
@@ -11,15 +12,20 @@ public class PlayerCamera : NetworkBehaviour
     {
         if (HasInputAuthority)
         {
-            camera = GameObject.FindGameObjectWithTag("MainCamera");
+            camera = GameObject.FindGameObjectWithTag("MainCamera");         
             camera.GetComponent<TopDownCamera>().target = gameObject.transform;
+
         }
     }
-    public void ChangeCamera()
+    public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (_playerPool.players != null)
+        if (_playerPool.players.Count > 0)
         {
-           // camera.GetComponent<TopDownCamera>().target = _playerPool.players[ANOTHER_PLAYER_NUMBER_IN_LIST].transform;
+            for (int i = 0; i < _playerPool.players.Count; i++)
+            {
+                if (_playerPool.players[i] != gameObject)
+                    camera.GetComponent<TopDownCamera>().target = _playerPool.players[i].transform;
+            }
         }
     }
 }

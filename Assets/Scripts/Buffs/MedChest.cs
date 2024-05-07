@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class MedChest : Buff
 {
-    [SerializeField]
-    private float _healing = 5;
+    [SerializeField] private float _healing = 5;
     private void OnTriggerEnter2D(Collider2D other)
     {
         FindEffect(other);

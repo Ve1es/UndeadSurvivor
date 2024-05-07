@@ -6,44 +6,35 @@ using UnityEngine;
 public class RegularZombie : Enemy
 {
     private const float ATTACK_ANIMATION_DURATION = 0.5f;
-    //StateMashine//
     private StateMachine _sm;
     private MovementState _movementState;
     private DeathState _deathState;
     private ZombieAttackState _zombieAttackState;
-    //GameLogic//
+    private List<float> _distances;
+    private GameObject _nearestPlayer;
+    private bool _canAttack = true;
+    private bool _flipX;
+    private bool _currentFlipX;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private float _nearestPlayerDistance;
     [SerializeField] private Animator _anim;
     [SerializeField] private PlayerPool _playerObjects;
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
     [SerializeField] private GameObject _attack;
 
-    private List<float> _distances;
-    private GameObject _nearestPlayer;
-    [SerializeField]
-    private float _nearestPlayerDistance;
-    private bool _canAttack=true;
+
+    
     public override void Spawned()
     {
         _sm = new StateMachine();
         _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
         _deathState = new DeathState(gameObject);
-        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState, _attack);
+        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState);
         _hp.SetHP(_enemyData.HP);
         _sm.Initialize(_movementState);
 
         StartCoroutine(NearestPlayer());
-    }
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-       //if(_canAttack && other.gameObject.CompareTag("Player"))
-       // {
-       //     _canAttack = false;
-       //     _nearestPlayer = other.gameObject;
-            
-       //     AttackBehavior();
-       //     StartCoroutine(WaitBetweenAttack());
-       // }
     }
     public override void Activate() 
     {
@@ -61,6 +52,34 @@ public class RegularZombie : Enemy
             StartCoroutine(WaitBetweenAttack());
             RPC_AttackAnimation();
         }
+        LookAtPlayer();
+    }
+    public void LookAtPlayer()
+    {
+
+        if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
+        {
+            _currentFlipX = false;
+            if (_currentFlipX != _flipX)
+            {
+                _flipX = false;
+                RPC_Rotate();
+            }
+        }
+        else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
+        {
+            _currentFlipX = true;
+            if (_currentFlipX != _flipX)
+            {
+                _flipX = true;
+                RPC_Rotate();
+            }
+        }
+    }
+    [Rpc]
+    public void RPC_Rotate()
+    {
+        _spriteRenderer.flipX = _flipX;
     }
     [Rpc]
     public void RPC_AttackAnimation()

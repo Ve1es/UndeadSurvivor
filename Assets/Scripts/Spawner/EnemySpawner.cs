@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class EnemySpawner : NetworkBehaviour
 {
-    public Transform[] spawnPoints;
     private bool _isSpawning = false;
+    public Transform[] spawnPoints;
 
     public void StartSpawnEnemy(float spawnInterval, List<NetworkPrefabRef> enemies)
     {

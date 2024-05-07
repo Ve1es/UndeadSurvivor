@@ -3,25 +3,22 @@ using UnityEngine;
 
 public class CharacterMovementController : NetworkBehaviour
 {
+    private const float ANGLE_REFLECTED_CONSTANT = 2;
+    private const float ANGLE0 = 0;
+    private const float ANGLE90 = 90;
+    private const float ANGLE180 = 180;
     private float _movementSpeed;
-
     private Rigidbody2D _rigidbody;
-    [SerializeField] private Animator _anim;
     private bool _isRun = false;
-
-    private CharacterPlayerController _characterController = null;
+    private float _angleReflected;
+    public GameObject player;
+    public GameObject weapon;
+    [SerializeField] private Animator _anim;
 
     public override void Spawned()
     {
-        // --- Host & Client
-        // Set the local runtime references.
         _rigidbody = GetComponent<Rigidbody2D>();
-        _characterController = GetComponent<CharacterPlayerController>();
-
-        // --- Host
-        // The Game Session SPECIFIC settings are initialized
         if (Object.HasStateAuthority == false) return;
-
     }
 
     public override void FixedUpdateNetwork()
@@ -30,7 +27,7 @@ public class CharacterMovementController : NetworkBehaviour
         {
             Move(input);
         }
-        if((_rigidbody.velocity.x!=0|| _rigidbody.velocity.y != 0) && !_isRun)
+        if ((_rigidbody.velocity.x != 0 || _rigidbody.velocity.y != 0) && !_isRun)
         {
             _isRun = true;
             RPC_ChangeMoveAnim(_isRun);
@@ -53,6 +50,33 @@ public class CharacterMovementController : NetworkBehaviour
     {
         Vector3 movement = new Vector3(input.MoveHorizontalInput * _movementSpeed, input.MoveVerticalInput * _movementSpeed, 0f);
         _rigidbody.velocity = movement;
+        if (!input.Shoot)
+        {
+            float angleRadians = Mathf.Atan2(input.MoveVerticalInput, input.MoveHorizontalInput);
+            float angleDegrees = angleRadians * Mathf.Rad2Deg;
+            _angleReflected = angleDegrees - (angleDegrees - ANGLE90) * ANGLE_REFLECTED_CONSTANT;
+
+            if (angleDegrees > ANGLE90 || angleDegrees < -ANGLE90)
+            {
+                if (player.transform.localRotation.y != ANGLE180)
+                    player.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+                if (weapon.transform.localRotation.z != _angleReflected
+                    || weapon.transform.localRotation.y != ANGLE180)
+                {
+                    weapon.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, _angleReflected);
+                }
+            }
+            else
+            {
+                if (player.transform.localRotation.y != ANGLE0)
+                    player.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+                if (weapon.transform.localRotation.z != angleDegrees
+                    || weapon.transform.localRotation.y != ANGLE0)
+                {
+                    weapon.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, angleDegrees);
+                }
+            }
+        }
     }
     public void SetSpeed(float speed)
     {

@@ -8,26 +8,19 @@ public class JoystickMove : NetworkBehaviour, IPointerDownHandler, IPointerUpHan
     private Image _joystick;
     private Image _joystickButton;
     private Vector2 _inputVector;
+    [SerializeField] private float maxDistance = 100f;
 
     private void Start()
     {
         _joystick = GetComponent<Image>();
         _joystickButton = transform.GetChild(0).GetComponent<Image>();
     }
-
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 pos;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_joystick.rectTransform, eventData.position, eventData.pressEventCamera, out pos))
-        {
-            pos.x = pos.x / _joystick.rectTransform.sizeDelta.x;
-            pos.y = pos.y / _joystick.rectTransform.sizeDelta.x;
-        }
-
-        _inputVector = new Vector2(pos.x * 2 - 1, pos.y * 2 - 1);
-        _inputVector = (_inputVector.magnitude > 1.0f) ? _inputVector.normalized : _inputVector;
-
-        _joystickButton.rectTransform.anchoredPosition = new Vector2(_inputVector.x * (_joystick.rectTransform.sizeDelta.x / 2), _inputVector.y * (_joystick.rectTransform.sizeDelta.y / 2));
+        Vector2 direction = (eventData.position - (Vector2)_joystick.transform.position);
+        direction = Vector2.ClampMagnitude(direction, maxDistance);
+        _joystickButton.rectTransform.anchoredPosition = direction;
+        _inputVector = direction.normalized;
     }
 
     public void OnPointerDown(PointerEventData eventData)

@@ -12,20 +12,17 @@ public class GameStateController : NetworkBehaviour
         Ending,
         ResultShow
     }
-
-
-
-
-    [SerializeField] private PlayerPool _playerPool;
     [Networked] private GameState _gameState { get; set; }
+    private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
+    private LocalInputPoller _localInputPoller;
 
+    [SerializeField] private CharacterSpawner _characterSpawner;
     [SerializeField] private WaveController _waveController;
+    [SerializeField] private PlayerPool _playerPool;
     [SerializeField] private KillsList _killsList;
     [SerializeField] private PlayerDamageList _playerDamageList;
     [SerializeField] private GameObject _endGameResult;
-    [SerializeField] private GameObject _startSoloGame;
-    [SerializeField] private CharacterSpawner _characterSpawner;
-
+    [SerializeField] private GameObject _preGame;
     [SerializeField] private GameObject _kills;
     [SerializeField] private GameObject _hp;
     [SerializeField] private GameObject _ammo;
@@ -34,9 +31,8 @@ public class GameStateController : NetworkBehaviour
     [SerializeField] private GameObject _joysticRight;
     [SerializeField] private GameObject _joysticLeftButton;
     [SerializeField] private GameObject _joysticRightButton;
+    [SerializeField] private GameObject _promptText;
 
-    private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
-    private LocalInputPoller _localInputPoller;
     public JoystickMove joysticMove;
     public JoystickWeapon joysticWeapon;
 
@@ -49,20 +45,8 @@ public class GameStateController : NetworkBehaviour
 
     public override void Spawned()
     {
-        // If the game has already started, find all currently active players' PlayerDataNetworked component Ids
-        if (_gameState != GameState.Starting)
-        {
-            foreach (var player in Runner.ActivePlayers)
-            {
-                if (Runner.TryGetPlayerObject(player, out var playerObject) == false) continue;
-                TrackNewPlayer(playerObject.GetComponent<PlayerDataNetworked>().Id);
-            }
-        } 
-
-        // Set is Simulated so that FixedUpdateNetwork runs on every client instead of just the Host
         Runner.SetIsSimulated(Object, true);
 
-        // --- This section is for all networked information that has to be initialized by the HOST
         if (Object.HasStateAuthority == false) return;
 
         _gameState = GameState.Starting;
@@ -74,7 +58,6 @@ public class GameStateController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // Update the game display with the information relevant to the current game state
         switch (_gameState)
         {
             case GameState.Starting:
@@ -94,23 +77,10 @@ public class GameStateController : NetworkBehaviour
         }
     }
 
-
-
     private void UpdateStarting()
     {
-        // --- Host & Client
-        // Display the remaining time until the game starts in seconds (rounded down to the closest full second)
-
-
-
-        // --- Host
         if (Object.HasStateAuthority == false) return;
-        //if (_timer.ExpiredOrNotRunning(Runner) == false) return;
 
-        // Starts the Spaceship and Asteroids spawners once the game start delay has expired
-        //FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
-
-        // Switches to the Running GameState and sets the time to the length of a game session
         _gameState = GameState.WaitingPlayerConnection;
     }
 
@@ -130,8 +100,6 @@ public class GameStateController : NetworkBehaviour
     }
     private void UpdateRunning()
     {
-        //if (_startSoloGame.activeSelf)
-        //    RPC_ChangeInterface();
         if(_playerPool.players.Count <= 0) 
         {
             GameHasEnded();
@@ -140,23 +108,12 @@ public class GameStateController : NetworkBehaviour
 
     private void UpdateEnding()
     {
-
-
-        //Runner.Shutdown();
     }
 
-    public void StartSoloGame()
-    {
-        FindObjectOfType<CharacterSpawner>().StartCharacterSpawner(this);
-        RPC_ChangeInterface();
-        _gameState = GameState.Running;
-        _waveController.StartWaves();
-        
-    }
     [Rpc]
     public void RPC_ChangeInterface()
     {
-        _startSoloGame.SetActive(false);
+        _preGame.SetActive(false);
         _kills.SetActive(true);
         _hp.SetActive(true);
         _ammo.SetActive(true);

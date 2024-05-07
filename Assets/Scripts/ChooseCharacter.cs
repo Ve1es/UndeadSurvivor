@@ -5,10 +5,8 @@ public class ChooseCharacter : NetworkBehaviour
 {
     private const int DEFAULT_CHARACTER_NUMBER = 0;
     private int _characterNumber = DEFAULT_CHARACTER_NUMBER;
-    [SerializeField]
-    private GameObject[] _characterBack;
-    [SerializeField]
-    private CharacterSpawner _spawn;
+    [SerializeField] private GameObject[] _characterBack;
+    [SerializeField] private CharacterSpawner _spawn;
 
     [Rpc]
     public void RPC_ClientSpawnCharacter(int characterNumber, PlayerRef localPlayer)

@@ -4,28 +4,22 @@ using UnityEngine;
 
 public class PumpedZombie : Enemy
 {
-    //StateMashine//
     private StateMachine _sm;
     private MovementState _movementState;
-    public DeathState _deathState;
-    public ZombieAttackState _zombieAttackState;
-    //GameLogic//
-    [SerializeField]
-    private Animator anim;
-    [SerializeField]
-    private PlayerPool playerObjects;
-    [SerializeField]
-    private EnemyData _enemyData;
     private List<float> _distances;
     private GameObject _nearestPlayer;
     private float _nearestPlayerDistance;
-
+    [SerializeField] private Animator anim;
+    [SerializeField] private PlayerPool playerObjects;
+    [SerializeField] private EnemyData _enemyData;
+    public DeathState _deathState;
+    public ZombieAttackState _zombieAttackState;
     public override void Spawned()
     {
         _sm = new StateMachine();
         _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
         _deathState = new DeathState(gameObject);
-        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState, gameObject);
+        _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState);
         _sm.Initialize(_movementState);
         StartCoroutine(NearestPlayer());
     }

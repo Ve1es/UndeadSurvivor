@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9212ef07bc276742a9f2b851a89d853, type: 3}
   m_Name: PlayerPool
   m_EditorClassIdentifier: 
-  players:
-  - {fileID: 0}
+  players: []
+  playersInputsNumbers:
+  - '[Player:1]'

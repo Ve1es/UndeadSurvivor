@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4174902182381410361}
   - component: {fileID: 2068252147154801787}
   - component: {fileID: 4243934244507596506}
-  - component: {fileID: 4451331620270148161}
   - component: {fileID: 8493099618894276962}
   - component: {fileID: 1872335454279861658}
   - component: {fileID: 1804512127762734020}
@@ -188,7 +187,6 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 4451331620270148161}
   - {fileID: 8493099618894276962}
   - {fileID: 1872335454279861658}
   - {fileID: 1804512127762734020}
@@ -200,21 +198,6 @@ MonoBehaviour:
   - {fileID: 3808615838577686480}
   - {fileID: 7858035560692287918}
   - {fileID: 2540346643752501228}
---- !u!114 &4451331620270148161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748826446636578949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18bc266b391f5a4ba50cf246cf1e568, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _NickName: 
-  _PlayerInputNumber: 
-  _playerCharacterNumber: 0
 --- !u!114 &8493099618894276962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d0f5bc54c11a2c41b6aa58af4843281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2609276087168753560}
+  weapon: {fileID: 4808746877690626986}
   _anim: {fileID: 1688583631173672317}
 --- !u!114 &1872335454279861658
 MonoBehaviour:
@@ -277,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeee509731fb2b74d890665d8ebe8c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPool: {fileID: 0}
+  _playerPool: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
 --- !u!114 &7525502785667825915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +297,7 @@ MonoBehaviour:
   _playerCamera: {fileID: -6799881331775675790}
   _playerStats: {fileID: 11400000, guid: d55f1f066e6dd7a49be0fc89166d38aa, type: 2}
   _characterList: {fileID: 11400000, guid: c2aecb413db60a1408490219a8485796, type: 2}
+  _characterInput: 
 --- !u!114 &2959520468917703445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,8 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ef68308953dd2498879df319f0430e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerKills: 0
   _killList: {fileID: 11400000, guid: 3089bf78e289e3042a921a462b303c24, type: 2}
+  _playerKills: 0
 --- !u!114 &3808615838577686480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,17 +339,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e2427f16ed544ab1493a7819fa06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  __maxAmmo: 0
   _bulletPrefab:
     RawGuidValue: 81fb43cba1abd404ba9e0d71ee5f3e7d
-  spawnBulletPoint: {fileID: 6640704311305086042}
-  _spawnedProjectile: 0
-  _weaponNumber: 0
   _playersWeaponSprite: {fileID: 1978765263997887953}
   _weaponList:
   - {fileID: 11400000, guid: ac60be6b04d4ec14788848174778761d, type: 2}
   - {fileID: 11400000, guid: c1da0bb2a8c50924da4937f9e419732e, type: 2}
   - {fileID: 11400000, guid: 83938881b0aebe74b93edf578588ddbf, type: 2}
-  __maxAmmo: 0
+  spawnBulletPoint: {fileID: 6640704311305086042}
+  _spawnedProjectile: 0
+  _weaponNumber: 0
 --- !u!1 &2609276087168753560
 GameObject:
   m_ObjectHideFlags: 0

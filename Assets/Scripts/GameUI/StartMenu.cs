@@ -4,14 +4,11 @@ using TMPro;
 
 public class StartMenu : MonoBehaviour
 {
+    private NetworkRunner _runnerInstance = null;
     [SerializeField] private NetworkRunner _networkRunnerPrefab = null;
-    [SerializeField] private PlayerData _playerDataPrefab = null;
-
     [SerializeField] private TMP_InputField _roomName = null;
     [SerializeField] private string _gameSceneName = null;
-
-    private NetworkRunner _runnerInstance = null;
-
+    
     public void StartHost()
     {
         StartGame(GameMode.AutoHostOrClient, _roomName.text, _gameSceneName);

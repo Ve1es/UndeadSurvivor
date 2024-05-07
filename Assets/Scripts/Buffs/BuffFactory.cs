@@ -5,7 +5,8 @@ public class BuffFactory : MonoBehaviour
     public enum EnemyType
     {
         MedChest,
-        Ammo
+        Ammo,
+        Bomb
     }
 
     public static Buff CreateEnemy(EnemyType type)
@@ -16,6 +17,8 @@ public class BuffFactory : MonoBehaviour
                 return new MedChest();
             case EnemyType.Ammo:
                 return new Ammo();
+            case EnemyType.Bomb:
+                return new Bomb();
             default:
                 throw new System.ArgumentException("Unsupported enemy type");
         }

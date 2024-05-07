@@ -1,6 +1,4 @@
 using Fusion;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,18 +7,9 @@ public class WaveController : NetworkBehaviour
 {
     private const string PLAYER_TAG = "Player";
     private const string ENEMY_TAG = "Enemy";
+    private const int FIRST_WAVE_NUMBER = 0;
     private const float DESPAWN_RADIUS = 100;
     private int _waveNumber;
-    [SerializeField] private List<WaveData> _wavePool;
-    [SerializeField] private GameStateController _gameStateController;
-    [Networked] private TickTimer _timer { get; set; }
-    [SerializeField] private AllPlayerTimer _allPlayerTimer;
-    //[Networked] private TickTimer _timerBreak { get; set; }
-    //[Networked] private TickTimer _timerWave { get; set; }
-
-    [SerializeField] private TMP_Text _gameRoundTimer;
-    [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private BuffSpawner _buffSpawner;
     private float _waveDuration;
     private float _breakTime;
     private float _enemySpawnTime;
@@ -29,10 +18,18 @@ public class WaveController : NetworkBehaviour
     private bool _isWave;
     private List<NetworkPrefabRef> _waveEnemies;
     private List<NetworkPrefabRef> _waveBuffs;
+    [Networked] private TickTimer _timer { get; set; }
+    [SerializeField] private AllPlayerTimer _allPlayerTimer;
+    [SerializeField] private TMP_Text _gameRoundTimer;
+    [SerializeField] private EnemySpawner _enemySpawner;
+    [SerializeField] private BuffSpawner _buffSpawner;
+    [SerializeField] private List<WaveData> _wavePool;
+    [SerializeField] private GameStateController _gameStateController;
+    
 
     public void StartWaves()
     {
-        _waveNumber = 0;
+        _waveNumber = FIRST_WAVE_NUMBER;
         StartWave();
     }
     private void StartWave()
@@ -50,7 +47,6 @@ public class WaveController : NetworkBehaviour
         else
         {
             EndGameBehaviour();
-            ///EndGame
         }
     }
     private void StartBreak()
@@ -59,7 +55,6 @@ public class WaveController : NetworkBehaviour
         _enemySpawner.StopSpawnEnemy();
         _buffSpawner.StopSpawnBuff();
         EndWaveKillAllEnemy();
-        //_timerBreak = TickTimer.CreateFromSeconds(Runner, _breakTime);
         _timer = TickTimer.CreateFromSeconds(Runner, _breakTime);
     }
     private void StartFight()
@@ -67,7 +62,6 @@ public class WaveController : NetworkBehaviour
         _isBreak = false;
         _isWave = true;
         _timer = TickTimer.CreateFromSeconds(Runner, _waveDuration);
-        //_timerWave = TickTimer.CreateFromSeconds(Runner, _waveDuration);
         _enemySpawner.StartSpawnEnemy(_enemySpawnTime, _waveEnemies);
         _buffSpawner.StartSpawnBuff(_buffSpawnTime, _waveBuffs);
     }
@@ -76,14 +70,10 @@ public class WaveController : NetworkBehaviour
     {
         if (_isBreak)
         {
-            //_allPlayerTimer.ChangeTimerUI(ConvertTimeFormat(_timer));
-            //_gameRoundTimer.text = ConvertTimeFormat(_timer);
             RPC_ChangeTimer(ConvertTimeFormat(_timer));
         }
         if (_isWave)
         {
-            //_allPlayerTimer.ChangeTimerUI(ConvertTimeFormat(_timer));
-            //_gameRoundTimer.text = ConvertTimeFormat(_timer);
             RPC_ChangeTimer(ConvertTimeFormat(_timer));
         }
         if (_timer.Expired(Runner) && _isBreak)

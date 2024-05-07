@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Bomb : Buff
 {
-    [SerializeField]
-    private float _explosion_radius = 5;
+    [SerializeField] private float _explosion_radius = 5;
     private const string PLAYER_TAG = "Player";
     private const string ENEMY_TAG = "Enemy";
     private void OnTriggerEnter2D(Collider2D other)

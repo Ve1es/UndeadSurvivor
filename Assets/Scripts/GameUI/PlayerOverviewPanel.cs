@@ -6,24 +6,19 @@ using Fusion;
 
 public class PlayerOverviewPanel : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _playerOverviewEntryPrefab = null;
-
     private Dictionary<PlayerRef, TextMeshProUGUI>
         _playerListEntries = new Dictionary<PlayerRef, TextMeshProUGUI>();
-
     private Dictionary<PlayerRef, string> _playerNickNames = new Dictionary<PlayerRef, string>();
     private Dictionary<PlayerRef, int> _playerScores = new Dictionary<PlayerRef, int>();
     private Dictionary<PlayerRef, int> _playerLives = new Dictionary<PlayerRef, int>();
+    [SerializeField] private TextMeshProUGUI _playerOverviewEntryPrefab = null;
 
-    // Creates a new Overview Entry
-    public void AddEntry(PlayerRef playerRef, PlayerDataNetworked playerDataNetworked)
+    public void AddEntry(PlayerRef playerRef)
     {
         if (_playerListEntries.ContainsKey(playerRef)) return;
-        if (playerDataNetworked == null) return;
 
         var entry = Instantiate(_playerOverviewEntryPrefab, this.transform);
         entry.transform.localScale = Vector3.one;
-        //entry.color = SpaceshipVisualController.GetColor(playerRef.PlayerId);
 
         string nickName = String.Empty;
         int lives = 0;
@@ -38,7 +33,6 @@ public class PlayerOverviewPanel : MonoBehaviour
         UpdateEntry(playerRef, entry);
     }
 
-    // Removes an existing Overview Entry
     public void RemoveEntry(PlayerRef playerRef)
     {
         if (_playerListEntries.TryGetValue(playerRef, out var entry) == false) return;

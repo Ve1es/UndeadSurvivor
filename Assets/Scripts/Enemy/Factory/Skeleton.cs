@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 public class Skeleton : Enemy
 {
-    //StateMashine//
     private StateMachine _sm;
     private MovementState _movementState;
     private DeathState _deathState;
     private SkeletonAttackState _skeletonAttackState;
-    //GameLogic//
-    
+    private List<float> _distances;
+    private GameObject _nearestPlayer;
+    private float _nearestPlayerDistance;
+    private bool _flipX;
+    private bool _currentFlipX;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private PlayerPool _playerObjects;
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletSpawn;
-
-    private List<float> _distances;
-    private GameObject _nearestPlayer;
-    private float _nearestPlayerDistance;
     public Animator _anim;
 
     public override void Spawned()
@@ -33,9 +33,7 @@ public class Skeleton : Enemy
         StartCoroutine(NearestPlayer());
     }
     public override void Activate()
-    {
-
-    }
+    { }
     
     public override void FixedUpdateNetwork()
     {
@@ -48,6 +46,27 @@ public class Skeleton : Enemy
             MoveBehavior();
         }
         _sm.CurrentState.UpdateSM(_nearestPlayer);
+        LookAtPlayer();
+    }
+    public void LookAtPlayer()
+    {
+        if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
+        {
+            _currentFlipX = false;
+            if (_currentFlipX!= _flipX)
+            _flipX = false;
+        }
+        else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
+        {
+            _currentFlipX = true;
+            if (_currentFlipX != _flipX)
+                _flipX =true;
+        }
+    }
+    [Rpc]
+    public void RPC_Rotate()
+    {
+        _spriteRenderer.flipX = _flipX;
     }
     public override void MoveBehavior()
     {

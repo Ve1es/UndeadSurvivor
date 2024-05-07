@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb072db653f8571429eef6c20798a817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 8340681765557638770}
   _playerObjects: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _enemyData: {fileID: 11400000, guid: 71d9aa6af42662343ba3b5491d8b1436, type: 2}
   _hp: {fileID: 1906013716731411444}

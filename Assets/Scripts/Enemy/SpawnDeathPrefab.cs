@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class SpawnDeathPrefab : NetworkBehaviour
 {
-    [SerializeField]
-    private NetworkPrefabRef _afterDeathObject;  
+    [SerializeField] private NetworkPrefabRef _afterDeathObject;  
 
     public void SpawnDeathObject()
     {

@@ -4,35 +4,26 @@ using UnityEngine;
 
 public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
-    // References to the NetworkObject prefab to be used for the players' spaceships.
+    private const int PLAYER_COUNT = 2;
+    private GameStateController _gameStateController = null;
+    private List<int> weaponNumberList;
     [SerializeField] private NetworkPrefabRef[] _characterNetworkPrefabs;
     [SerializeField] private PlayerPool _playerPool;
-    private bool _gameIsReady = false;
-    private GameStateController _gameStateController = null;
-    private const int PLAYER_COUNT = 2;
-    //private int _issuedWeapon = -1;
     [SerializeField] private int _weaponsCount;
     [SerializeField] private GameObject[] _spawnPoints;
     [SerializeField] private List<WeaponData> weaponList;
-    private List<int> weaponNumberList;
-
-    [SerializeField]
     public Dictionary<PlayerRef, int> _selectedCharacters = new Dictionary<PlayerRef, int>();
 
     public void AddPlayerCharacter(int characterNumber, PlayerRef player)
     {
-            if (_selectedCharacters.ContainsKey(player))
-            {
-                _selectedCharacters[player] = characterNumber;
-            }
-            else
-            {
-                _selectedCharacters.Add(player, characterNumber);
-            }
-        //List<string> playerList = new List<string>();
-        //playerList.Add(characterNumber);
-        //playerList.Add(inputAuthority);
-        //_playersCharacter.Add(playerList);
+        if (_selectedCharacters.ContainsKey(player))
+        {
+            _selectedCharacters[player] = characterNumber;
+        }
+        else
+        {
+            _selectedCharacters.Add(player, characterNumber);
+        }
     }
 
     public override void Spawned()
@@ -43,18 +34,16 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     private void SetWeaponNumbers()
     {
-        for(int i = 0; i< _weaponsCount; i++)
+        for (int i = 0; i < _weaponsCount; i++)
         {
             weaponNumberList.Add(i);
         }
     }
 
-    // The spawner is started when the GameStateController switches to GameState.Running.
     public void StartCharacterSpawner(GameStateController gameStateController)
     {
         if (HasStateAuthority)
         {
-            _gameIsReady = true;
             _gameStateController = gameStateController;
             foreach (var player in Runner.ActivePlayers)
             {
@@ -63,37 +52,20 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         }
     }
 
-    public void PlayerJoined(PlayerRef player)
-    {
-        //if (_gameIsReady == false) return;
-        //SpawnCharacter(player);
-        //_playerList.Add(player);
-    }
+    public void PlayerJoined(PlayerRef player) { }
 
-    // Spawns a spaceship for a player.
-    // The spawn point is chosen in the _spawnPoints array using the implicit playerRef to int conversion 
     private void SpawnCharacter(PlayerRef player)
     {
-        // Modulo is used in case there are more players than spawn points.
         int index = player.PlayerId % PLAYER_COUNT;
         var spawnPosition = _spawnPoints[index].transform.position;
-        //int character = int.Parse(_playersCharacter[i][0]);
         int character = _selectedCharacters[player];
         var playerObject = Runner.Spawn(_characterNetworkPrefabs[character], spawnPosition, Quaternion.identity, player);
-        // Set Player Object to facilitate access across systems.
         Runner.SetPlayerObject(player, playerObject);
-        
-        // Add the new spaceship to the players to be tracked for the game end check.
-        _gameStateController.TrackNewPlayer(playerObject.GetComponent<PlayerDataNetworked>().Id);
         int weaponIndex = Random.Range(0, weaponList.Count - 1);
         playerObject.GetComponent<WeaponController>().weaponNumber = weaponNumberList[weaponIndex];
         weaponNumberList.RemoveAt(weaponIndex);
-
-        _playerPool.RegisterPlayer(playerObject.gameObject);
-        _playerPool.RegisterPlayerInputNumber(player.ToString());
     }
 
-    // Despawns the spaceship associated with a player when their client leaves the game session.
     public void PlayerLeft(PlayerRef player)
     {
         DespawnCharacter(player);
@@ -101,11 +73,11 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     private void DespawnCharacter(PlayerRef player)
     {
-        if (Runner.TryGetPlayerObject(player, out var spaceshipNetworkObject))
+        if (Runner.TryGetPlayerObject(player, out var playerNetworkObject))
         {
-            Runner.Despawn(spaceshipNetworkObject);
+            Runner.Despawn(playerNetworkObject);
         }
 
-       // Runner.SetPlayerObject(player, null);
+        Runner.SetPlayerObject(player, null);
     }
 }

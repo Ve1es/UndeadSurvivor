@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class LocalInputPoller : MonoBehaviour, INetworkRunnerCallbacks
 {
-    private const string AXIS_HORIZONTAL = "Horizontal";
-    private const string AXIS_VERTICAL = "Vertical";
     private JoystickMove _joystickMove;
     private JoystickWeapon _joystickWeapon;
+    private IInputStrategy _inputStrategy;
+    private InputConnectionControll _inputConnectionControll;
 
     public void ConnectInputSystem(JoystickMove joysticMove, JoystickWeapon joystickWeapon)
     {
@@ -20,22 +20,9 @@ public class LocalInputPoller : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         CharacterInput localInput = new CharacterInput();
-
-        localInput.MoveHorizontalInput = Input.GetAxis(AXIS_HORIZONTAL);
-        localInput.MoveVerticalInput = Input.GetAxis(AXIS_VERTICAL);
-        if (_joystickMove != null)
-        {
-            localInput.MoveHorizontalInput = _joystickMove.Horizontal();
-            localInput.MoveVerticalInput = _joystickMove.Vertical();
-        }
-        if(_joystickWeapon != null)
-        {
-            localInput.Shoot = _joystickWeapon.Shoot();
-            localInput.WeaponHorizontalInput = _joystickWeapon.Horizontal();
-            localInput.WeaponVerticalInput = _joystickWeapon.Vertical();
-        }
-
-        input.Set(localInput);
+        _inputConnectionControll = new InputConnectionControll();
+        _inputStrategy = _inputConnectionControll.ChooseStrategy();
+        input.Set(_inputStrategy.ProcessInput(localInput, _joystickMove, _joystickWeapon));
     }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {

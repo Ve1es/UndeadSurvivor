@@ -3,10 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCharacterList", menuName = "Character List", order = 1)]
 public class CharacterList : ScriptableObject
 {
-    [SerializeField]
-    private Sprite[] characterSprites;
-    [SerializeField]
-    private RuntimeAnimatorController[] characterAnimators;
+    [SerializeField] private Sprite[] characterSprites;
+    [SerializeField] private RuntimeAnimatorController[] characterAnimators;
 
     public Sprite GetSprite(int characterNumber)
     {

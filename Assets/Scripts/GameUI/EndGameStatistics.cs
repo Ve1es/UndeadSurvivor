@@ -8,6 +8,13 @@ public class EndGameStatistics : NetworkBehaviour
     private const int PLAYER_TWO_NUMBER_IN_LIST = 1;
     private const int PLAYER_DAMAGE_FIRST_FIELD = 0;
     private const int PLAYER_DAMAGE_SECOND_FIELD = 1;
+    [Networked] private string playerOneName { get; set; }
+    [Networked] private string playerTwoName { get; set; }
+    [Networked] private string playerOneKills { get; set; }
+    [Networked] private string playerTwoKills { get; set; }
+    [Networked] private string playerOneDamage { get; set; }
+    [Networked] private string playerTwoDamage { get; set; }
+    [Networked] private int playersCount { get; set; }
     [SerializeField] private GameObject _endGameStats;
     [SerializeField] private PlayerPool _playerPool;
     [SerializeField] private KillsList _killsList;
@@ -20,14 +27,6 @@ public class EndGameStatistics : NetworkBehaviour
     [SerializeField] private TMP_Text _playerTwoName;
     [SerializeField] private TMP_Text _playerTwoKills;
     [SerializeField] private TMP_Text _playerTwoDamage;
-
-    [Networked] private string playerOneName { get; set; }
-    [Networked] private string playerTwoName { get; set; }
-    [Networked] private string playerOneKills { get; set; }
-    [Networked] private string playerTwoKills { get; set; }
-    [Networked] private string playerOneDamage { get; set; }
-    [Networked] private string playerTwoDamage { get; set; }
-    [Networked] private int playersCount { get; set; }
 
     public void DisplayStatistic()
     {
@@ -42,7 +41,6 @@ public class EndGameStatistics : NetworkBehaviour
             playerOneName = playerOneInput;
             playerOneKills = KillCount(playerOneInput).ToString();
             playerOneDamage = DamageCount(playerOneInput).ToString();
-
 
             if (playersCount > 1)
             {

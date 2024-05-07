@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class BuffSpawner : NetworkBehaviour
 {
+    private const float ZCOORDINATE = 0;
+    private bool _isSpawning = false;
     public Transform spawnCenter;
     public float spawnWidth = 27f;
     public float spawnHeight = 19f;
     public float spawnFrequency = 5f;
-    private const float ZCOORDINATE = 0;
-    private bool _isSpawning = false;
-
+   
     public void StartSpawnBuff(float _buffSpawnTime, List<NetworkPrefabRef> enemies)
     {
         _isSpawning = true;

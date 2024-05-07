@@ -8,10 +8,3 @@ public interface IEnemyState
     void Exit();
     void UpdateSM(GameObject _player);
 }
-
-//public abstract class IEnemyState
-//{
-//    public abstract void Enter();
-//    public abstract void Update();
-//    public abstract void Exit();
-//}

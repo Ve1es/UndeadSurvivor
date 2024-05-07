@@ -8,11 +8,6 @@ public class TopDownCamera : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-
-    private void Start()
-    {
-        //PlayerSpawner.OnPlayerSpawned += SetTarget;
-    }
     private void LateUpdate()
     {
         if (target != null)

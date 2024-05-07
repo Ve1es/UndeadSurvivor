@@ -1,24 +1,21 @@
 using Fusion;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class WeaponController : NetworkBehaviour
 {
     private const string ENEMY_TAG = "Enemy";
-    private const float BULLET_SPEED = 10;
+    private const float BULLET_SPEED = 10; 
+    private int _currentWeapon=0;
+    private float _nextFireTime = 0;
+    [Networked] private int _ammo { get; set; }
+    [Networked] [SerializeField] private int _maxAmmo { get; set; }
     [SerializeField] private NetworkPrefabRef _bulletPrefab = NetworkPrefabRef.Empty;
+    [SerializeField] private SpriteRenderer _playersWeaponSprite;
+    [SerializeField] private List<WeaponData> _weaponList;
     public Transform spawnBulletPoint;
     [Networked] public bool spawnedProjectile { get; set; }
     [Networked] public int weaponNumber { get; set; }
-    private int _currentWeapon=0;
-    [SerializeField]  private SpriteRenderer _playersWeaponSprite;
-    [SerializeField] private List<WeaponData> _weaponList;
-    [Networked] private int _ammo { get; set; }
-    //[SerializeField] private int _ammo=0;
-    [Networked] [SerializeField] private int _maxAmmo { get; set; }
-    private float _nextFireTime=0;
-
 
     public void AppointWeapon()
     {

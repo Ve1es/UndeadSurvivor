@@ -1,14 +1,17 @@
 using Fusion;
 using UnityEngine;
+using System.Collections;
 
 public class Health : NetworkBehaviour
 {
+    private float DECREASE_ANIM_TIME = 3;
+    private float _maxHP;
     [SerializeField] private NetworkPrefabRef _deathPrefab;
     [SerializeField] private Animator _animator;
     [Networked]
-    [SerializeField]
+    [SerializeField] 
     private float _healthPoint { get; set; }
-    private float _maxHP;
+
 
     public void SetHP(float hp)
     {
@@ -35,7 +38,14 @@ public class Health : NetworkBehaviour
     [Rpc]
     private void RPC_ShowHitEffect()
     {
+        StartCoroutine(PlayFirstThenSecond());
+    }
+    IEnumerator PlayFirstThenSecond()
+    {
         _animator.SetTrigger("Hit");
+        _animator.SetBool("Run", false);
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length/ DECREASE_ANIM_TIME);
+        _animator.SetBool("Run", true);
     }
     public void AddHP(float healing)
     {

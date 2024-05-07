@@ -9,10 +9,8 @@ public class DealDamage : NetworkBehaviour
     private float _damage = DEFAULTDAMAGE;
     private string _goalTag;
     private string _player;
-    [SerializeField]
-    private KillsList _killsList;
-    [SerializeField]
-    private PlayerDamageList _playerDamageList;
+    [SerializeField] private KillsList _killsList;
+    [SerializeField] private PlayerDamageList _playerDamageList;
     public Action OnKillListUpdated;
 
     public void SetDamage(float damage)

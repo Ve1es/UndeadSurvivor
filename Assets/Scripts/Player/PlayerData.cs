@@ -5,8 +5,7 @@ public class PlayerData : MonoBehaviour
 {
     private const int DEFAULT_CHARACTER_NUMBER = 0;
     private string _nickName = null;
-    [SerializeField]
-    private int _playerCharacterNumber = DEFAULT_CHARACTER_NUMBER;
+    [SerializeField] private int _playerCharacterNumber = DEFAULT_CHARACTER_NUMBER;
 
     private void Start()
     {

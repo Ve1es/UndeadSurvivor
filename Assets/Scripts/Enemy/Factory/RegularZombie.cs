@@ -25,9 +25,9 @@ public class RegularZombie : Enemy
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
     [SerializeField] private GameObject _attack;
+    [SerializeField] private GameObject _spriteObject;
 
 
-    
     public override void Spawned()
     {
         _sm = new StateMachine();
@@ -59,22 +59,22 @@ public class RegularZombie : Enemy
     }
     public void LookAtPlayer()
     {
-        if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
+        if (_nearestPlayer.transform.position.x > Object.transform.position.x)
         {
             _currentFlipX = false;
             if (_currentFlipX != _flipX)
             {
                 _flipX = false;
-                  Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
             }
         }
-        else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
+        else if (_nearestPlayer.transform.position.x < Object.transform.position.x)
         {
             _currentFlipX = true;
             if (_currentFlipX != _flipX)
             {
                 _flipX = true;
-                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
             }
         }
     }

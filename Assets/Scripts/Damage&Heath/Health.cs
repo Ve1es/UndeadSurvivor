@@ -25,6 +25,7 @@ public class Health : NetworkBehaviour
     public bool ReduceHP(float damage)
     {
         _healthPoint -= damage;
+        
         if (_healthPoint <= 0)
         {
             Runner.Spawn(_deathPrefab, transform.position, Quaternion.identity);
@@ -32,8 +33,7 @@ public class Health : NetworkBehaviour
             return true;
         }
         RPC_ShowHitEffect();
-        return false;
-        
+        return false;   
     }
     [Rpc]
     private void RPC_ShowHitEffect()

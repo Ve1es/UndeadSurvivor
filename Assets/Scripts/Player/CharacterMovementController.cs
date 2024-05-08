@@ -25,7 +25,12 @@ public class CharacterMovementController : NetworkBehaviour
     {
         if (Runner.TryGetInputForPlayer<CharacterInput>(Object.InputAuthority, out var input))
         {
-            Move(input);
+            if (HasStateAuthority)
+            {
+                
+                    Move(input);
+                
+            }
         }
         if ((_rigidbody.velocity.x != 0 || _rigidbody.velocity.y != 0) && !_isRun)
         {
@@ -50,7 +55,6 @@ public class CharacterMovementController : NetworkBehaviour
     {
         Vector3 movement = new Vector3(input.MoveHorizontalInput * _movementSpeed, input.MoveVerticalInput * _movementSpeed, 0f);
         _rigidbody.velocity = movement;
-        Debug.Log(input.Shoot);
         if (!input.Shoot)
         {
             float angleRadians = Mathf.Atan2(input.MoveVerticalInput, input.MoveHorizontalInput);

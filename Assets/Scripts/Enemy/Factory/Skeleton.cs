@@ -23,6 +23,7 @@ public class Skeleton : Enemy
     [SerializeField] private Health _hp;
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletSpawn;
+    [SerializeField] private GameObject _spriteObject;
     public Animator _anim;
 
     public override void Spawned()
@@ -53,22 +54,22 @@ public class Skeleton : Enemy
     }
     public void LookAtPlayer()
     {
-        if (_nearestPlayer.transform.position.x > gameObject.transform.position.x)
+        if (_nearestPlayer.transform.position.x > Object.transform.position.x)
         {
             _currentFlipX = false;
             if (_currentFlipX != _flipX)
             {
                 _flipX = false;
-                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
             }
         }
-        else if (_nearestPlayer.transform.position.x < gameObject.transform.position.x)
+        else if (_nearestPlayer.transform.position.x < Object.transform.position.x)
         {
             _currentFlipX = true;
             if (_currentFlipX != _flipX)
             {
                 _flipX = true;
-                Object.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
             }
         }
     }
@@ -94,7 +95,6 @@ public class Skeleton : Enemy
         _distances = new List<float>();
         if (_playerObjects.players != null)
         {
-
             for (int i = 0; i<= _playerObjects.players.Count - 1; i++)
             {
                 if (_playerObjects.players[i] == null)

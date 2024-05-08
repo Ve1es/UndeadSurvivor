@@ -3,6 +3,8 @@ using Fusion;
 
 public class PlayerUIController : NetworkBehaviour
 {
+    private const float Zero_Hp = 0;
+
     private PlayerUIChanger UICanvas;
     [SerializeField] private Health _hp;
     [SerializeField] private WeaponController _ammo;
@@ -41,5 +43,9 @@ public class PlayerUIController : NetworkBehaviour
                 UICanvas.ChangeKills(_currentKills);
         }
 
+    }
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        UICanvas.ChangeHP(Zero_Hp);
     }
 }

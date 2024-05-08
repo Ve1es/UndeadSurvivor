@@ -21,11 +21,14 @@ public class CharacterShootController : NetworkBehaviour
     {
         if (Runner.TryGetInputForPlayer<CharacterInput>(Object.InputAuthority, out var input))
         {
-            WeaponMove(input);
+           
             if (HasStateAuthority)
             {
                 if (input.Shoot)
+                {
+                    WeaponMove(input);
                     _weapon.Shoot(input);
+                }
             }
         }
     }

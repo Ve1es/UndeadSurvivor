@@ -10,7 +10,7 @@ public class CharacterPlayerController : NetworkBehaviour
     [SerializeField] private PlayerCamera _playerCamera;
     [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private CharacterList _characterList;
-    [SerializeField] private string _characterInput;
+    [SerializeField] public string _characterInput;
     
     public override void Spawned()
     {

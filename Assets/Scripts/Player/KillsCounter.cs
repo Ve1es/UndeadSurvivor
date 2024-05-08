@@ -12,9 +12,14 @@ public class KillsCounter : NetworkBehaviour
     {
         if (_killList != null && listLength != _killList.playersKills.Count)
         {
+
+            for (int i = listLength; i < _killList.playersKills.Count; i++)
+            {
+                if (_killList.playersKills[i] == _player)
+                    playerKills++;
+            }
+
             listLength = _killList.playersKills.Count;
-            if (_killList.playersKills[listLength - 1] == _player)
-                playerKills++;
         }
     }
 

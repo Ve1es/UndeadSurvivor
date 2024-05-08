@@ -21,7 +21,7 @@ public class ZombieAttackState : IEnemyState
     {
 
     }
-    public void UpdateSM(GameObject _player)
+    public void UpdateSM(CharacterPlayerController _player)
     {
         if (_player != null)
         {

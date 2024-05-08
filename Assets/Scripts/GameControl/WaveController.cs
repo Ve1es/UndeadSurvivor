@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class WaveController : NetworkBehaviour
 {
-    private const string PLAYER_TAG = "Player";
-    private const string ENEMY_TAG = "Enemy";
-    private const int FIRST_WAVE_NUMBER = 0;
-    private const float DESPAWN_RADIUS = 100;
+    private const int First_Wave_Number = 0;
+    private const float Despawn_Radius = 100;
+
     private int _waveNumber;
     private float _waveDuration;
     private float _breakTime;
@@ -16,9 +15,12 @@ public class WaveController : NetworkBehaviour
     private float _buffSpawnTime;
     private bool _isBreak;
     private bool _isWave;
+
     private List<NetworkPrefabRef> _waveEnemies;
     private List<NetworkPrefabRef> _waveBuffs;
+
     [Networked] private TickTimer _timer { get; set; }
+
     [SerializeField] private AllPlayerTimer _allPlayerTimer;
     [SerializeField] private TMP_Text _gameRoundTimer;
     [SerializeField] private EnemySpawner _enemySpawner;
@@ -29,7 +31,7 @@ public class WaveController : NetworkBehaviour
 
     public void StartWaves()
     {
-        _waveNumber = FIRST_WAVE_NUMBER;
+        _waveNumber = First_Wave_Number;
         StartWave();
     }
     private void StartWave()
@@ -109,12 +111,12 @@ public class WaveController : NetworkBehaviour
 
     private void EndWaveKillAllEnemy()
     {       
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, DESPAWN_RADIUS);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, Despawn_Radius);
         foreach (Collider2D enemyCollider in enemies)
         {
-            if (enemyCollider.CompareTag(ENEMY_TAG))
+            if (enemyCollider.TryGetComponent(out Enemy enemy))
             {
-                enemyCollider.gameObject.GetComponent<Health>().ReduceHP(enemyCollider.gameObject.GetComponent<Health>().GetHP());
+                enemy.gameObject.GetComponent<Health>().ReduceHP(enemy.gameObject.GetComponent<Health>().GetHP());
             }
         }
     }

@@ -3,23 +3,24 @@ using UnityEngine;
 
 public class KillsCounter : NetworkBehaviour
 {
-    private int listLength=0;
+    private int _listLength=0;
     private string _player;
+
     [SerializeField] private KillsList _killList;
-    [Networked] public int playerKills { get; set; }
+    [Networked] public int PlayerKills { get; set; }
 
     public void Update()
     {
-        if (_killList != null && listLength != _killList.playersKills.Count)
+        if (_killList != null && _listLength != _killList.playersKills.Count)
         {
 
-            for (int i = listLength; i < _killList.playersKills.Count; i++)
+            for (int i = _listLength; i < _killList.playersKills.Count; i++)
             {
                 if (_killList.playersKills[i] == _player)
-                    playerKills++;
+                    PlayerKills++;
             }
 
-            listLength = _killList.playersKills.Count;
+            _listLength = _killList.playersKills.Count;
         }
     }
 

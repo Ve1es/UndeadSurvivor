@@ -8,9 +8,9 @@ public class Ammo : Buff
     }
     public override void FindEffect(Collider2D other) 
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out CharacterPlayerController player))
         {
-            other.GetComponent<WeaponController>().AddAmmo();
+            player.GetComponent<WeaponController>().AddAmmo();
             Runner.Despawn(Object);
         }
     }

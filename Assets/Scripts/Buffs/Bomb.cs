@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class Bomb : Buff
 {
-    private const string Player_Tag = "Player";
-    private const string Enemy_Tag = "Enemy";
-    [SerializeField] private float _explosion_radius = 5;
+    [SerializeField] private float _explosion_radius;
     [SerializeField] private KillsList _killsList;
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -12,15 +10,15 @@ public class Bomb : Buff
     }
     public override void FindEffect(Collider2D other)
     {
-        if (other.CompareTag(Player_Tag))
+        if(other.TryGetComponent(out CharacterPlayerController player))
         {
             Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, _explosion_radius);
             foreach (Collider2D enemyCollider in enemies)
             {
-                if (enemyCollider.CompareTag(Enemy_Tag))
+                if(enemyCollider.TryGetComponent(out Enemy enemy))
                 {
                     enemyCollider.gameObject.GetComponent<Health>().ReduceHP(enemyCollider.gameObject.GetComponent<Health>().GetHP());
-                    _killsList.AddString(other.GetComponent<CharacterPlayerController>()._characterInput);
+                    _killsList.AddString(other.GetComponent<CharacterPlayerController>().CharacterInput);
                 }
                 
             }

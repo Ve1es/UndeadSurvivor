@@ -4,20 +4,22 @@ using UnityEngine;
 public class CharacterPlayerController : NetworkBehaviour
 {
     private float _playerId;
+
     [SerializeField] private PlayerPool _playerPool;
-    [SerializeField] private GameObject _playerSprite;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private PlayerCamera _playerCamera;
     [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private CharacterList _characterList;
-    [SerializeField] public string _characterInput;
+
+    [SerializeField] public Health Health;
+    [SerializeField] public string CharacterInput;
+    
     
     public override void Spawned()
     {
         gameObject.GetComponent<Health>().SetHP(_playerStats.HP);
         gameObject.GetComponent<CharacterMovementController>().SetSpeed(_playerStats.MovingSpeed);
         RPC_AddPlayerInList();
-        _playerSprite.SetActive(true);
     }
     [Rpc]
     public void RPC_AddPlayerInList()
@@ -27,11 +29,7 @@ public class CharacterPlayerController : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        _characterInput = Object.InputAuthority.ToString();
-        if(_characterInput=="")
-        {
-            gameObject.SetActive(false);
-        }
+        CharacterInput = Object.InputAuthority.ToString();
     }
     public float GetPlayerId()
     {

@@ -4,14 +4,19 @@ using System.Collections;
 
 public class Health : NetworkBehaviour
 {
-    private float DECREASE_ANIM_TIME = 3;
+    private const float Decrease_Anim_Time = 3;
+    private static readonly int Run = Animator.StringToHash("Run");
+    private static readonly int Hit = Animator.StringToHash("Hit");
+
     private float _maxHP;
+
     [SerializeField] private NetworkPrefabRef _deathPrefab;
     [SerializeField] private Animator _animator;
     [Networked]
     [SerializeField] 
     private float _healthPoint { get; set; }
 
+    
 
     public void SetHP(float hp)
     {
@@ -42,10 +47,10 @@ public class Health : NetworkBehaviour
     }
     IEnumerator PlayFirstThenSecond()
     {
-        _animator.SetTrigger("Hit");
-        _animator.SetBool("Run", false);
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length/ DECREASE_ANIM_TIME);
-        _animator.SetBool("Run", true);
+        _animator.SetTrigger(Hit);
+        _animator.SetBool(Run, false);
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length/Decrease_Anim_Time);
+        _animator.SetBool(Run, true);
     }
     public void AddHP(float healing)
     {

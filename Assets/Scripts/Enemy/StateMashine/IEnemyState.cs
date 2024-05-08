@@ -6,5 +6,5 @@ public interface IEnemyState
 {
     void Enter();
     void Exit();
-    void UpdateSM(GameObject _player);
+    void UpdateSM(CharacterPlayerController _player);
 }

@@ -5,6 +5,7 @@ using TMPro;
 public class StartMenu : MonoBehaviour
 {
     private NetworkRunner _runnerInstance = null;
+
     [SerializeField] private NetworkRunner _networkRunnerPrefab = null;
     [SerializeField] private TMP_InputField _roomName = null;
     [SerializeField] private string _gameSceneName = null;

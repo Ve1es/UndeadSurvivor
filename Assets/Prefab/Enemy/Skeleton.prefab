@@ -261,9 +261,9 @@ MonoBehaviour:
   _playerObjects: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _enemyData: {fileID: 11400000, guid: 71d9aa6af42662343ba3b5491d8b1436, type: 2}
   _hp: {fileID: 1906013716731411444}
-  _bullet: {fileID: 2716557972670139232, guid: 81fb43cba1abd404ba9e0d71ee5f3e7d, type: 3}
+  _bullet: {fileID: -5766270185416635903, guid: 81fb43cba1abd404ba9e0d71ee5f3e7d, type: 3}
   _bulletSpawn: {fileID: 6141646037427468694}
-  _spriteObject: {fileID: 4834566461274686545}
+  _spriteObject: {fileID: 2792965727089695589}
   _anim: {fileID: 6360025836595797547}
 --- !u!1 &4834566461274686545
 GameObject:

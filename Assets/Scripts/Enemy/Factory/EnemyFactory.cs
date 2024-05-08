@@ -5,7 +5,6 @@ public class EnemyFactory : MonoBehaviour
     public enum EnemyType
     {
         RegularZombie,
-        PumpedZombie,
         Skeleton
     }
 
@@ -15,8 +14,6 @@ public class EnemyFactory : MonoBehaviour
         {
             case EnemyType.RegularZombie:
                 return new RegularZombie();
-            case EnemyType.PumpedZombie:
-                return new PumpedZombie();
             case EnemyType.Skeleton:
                 return new Skeleton();
             default:

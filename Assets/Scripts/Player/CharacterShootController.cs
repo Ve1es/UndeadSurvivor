@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class CharacterShootController : NetworkBehaviour
 {
-    private const float ANGLE_REFLECTED_CONSTANT = 2;
-    private const float ANGLE0 = 0;
-    private const float ANGLE90 = 90;
-    private const float ANGLE180 = 180;
+    private const float Angle_Reflected_Constant = 2;
+    private const float Angle0 = 0;
+    private const float Angle90 = 90;
+    private const float Angle180 = 180;
+
     private float _angleReflected;
-    public GameObject player;
-    public GameObject weapon; 
+
+    public Transform Player;
+    public Transform Weapon; 
     public WeaponController _weapon;
     
     public override void Spawned()
@@ -37,26 +39,25 @@ public class CharacterShootController : NetworkBehaviour
     {
         float angleRadians = Mathf.Atan2(input.WeaponVerticalInput, input.WeaponHorizontalInput);
         float angleDegrees = angleRadians * Mathf.Rad2Deg;
-        _angleReflected = angleDegrees - (angleDegrees - ANGLE90) * ANGLE_REFLECTED_CONSTANT;
-
-        if (angleDegrees > ANGLE90 || angleDegrees < -ANGLE90)
+        _angleReflected = angleDegrees - (angleDegrees - Angle90) * Angle_Reflected_Constant;
+        if (angleDegrees > Angle90 || angleDegrees < -Angle90)
         {
-            if (player.transform.localRotation.y != ANGLE180)
-                player.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
-            if (weapon.transform.localRotation.z != _angleReflected
-                || weapon.transform.localRotation.y != ANGLE180)
+            if (Player.localRotation.y != Angle180)
+                Player.localRotation = Quaternion.Euler(Angle0, Angle180, Angle0);
+            if (Weapon.localRotation.z != _angleReflected
+                || Weapon.localRotation.y != Angle180)
             {
-                weapon.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, _angleReflected);
+                Weapon.localRotation = Quaternion.Euler(Angle0, Angle180, _angleReflected);
             }
         }
         else
         {
-            if (player.transform.localRotation.y != ANGLE0)
-                player.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
-            if (weapon.transform.localRotation.z != angleDegrees
-                || weapon.transform.localRotation.y != ANGLE0)
+            if (Player.localRotation.y != Angle0)
+                Player.localRotation = Quaternion.Euler(Angle0, Angle0, Angle0);
+            if (Weapon.localRotation.z != angleDegrees
+                || Weapon.localRotation.y != Angle0)
             {
-                weapon.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, angleDegrees);
+                Weapon.localRotation = Quaternion.Euler(Angle0, Angle0, angleDegrees);
             }
         }
     }

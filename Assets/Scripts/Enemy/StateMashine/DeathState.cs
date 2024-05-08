@@ -1,14 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 public class DeathState : IEnemyState
 {
-    private GameObject _enemy;
-    public DeathState(GameObject enemy)
-    {
-        _enemy = enemy;
-    }
     public void Enter()
     {
 
@@ -18,7 +11,7 @@ public class DeathState : IEnemyState
     {
         
     }
-    public void UpdateSM(GameObject _player)
+    public void UpdateSM(CharacterPlayerController _player)
     {
 
     }

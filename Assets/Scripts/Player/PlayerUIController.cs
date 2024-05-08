@@ -6,19 +6,21 @@ public class PlayerUIController : NetworkBehaviour
     private const float Zero_Hp = 0;
 
     private PlayerUIChanger UICanvas;
+    private float _currentHp;
+    private float _currentKills;
+    private int _currentAmmo;
+
     [SerializeField] private Health _hp;
     [SerializeField] private WeaponController _ammo;
     [SerializeField] private KillsCounter _kills;
-    private float _currentHp;
-    private int _currentAmmo;
-    private float _currentKills;
+    
 
     public override void Spawned()
     {
         if (HasInputAuthority)
         {
             UICanvas = FindObjectOfType<PlayerUIChanger>();
-            _currentKills = _kills.playerKills;
+            _currentKills = _kills.PlayerKills;
         }
     }
 
@@ -36,9 +38,9 @@ public class PlayerUIController : NetworkBehaviour
             if (UICanvas != null)
                 UICanvas.ChangeAmmo(_currentAmmo);
         }
-        if (_kills.playerKills != _currentKills)
+        if (_kills.PlayerKills != _currentKills)
         {
-            _currentKills = _kills.playerKills;
+            _currentKills = _kills.PlayerKills;
             if (UICanvas != null)
                 UICanvas.ChangeKills(_currentKills);
         }

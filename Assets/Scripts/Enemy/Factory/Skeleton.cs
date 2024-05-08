@@ -5,33 +5,36 @@ using Fusion;
 
 public class Skeleton : Enemy
 {
-    private const float ANGLE0 = 0;
-    private const float ANGLE90 = 90;
-    private const float ANGLE180 = 180;
+    private const float Angle0 = 0;
+    private const float Angle180 = 180;
+
     private StateMachine _sm;
     private MovementState _movementState;
     private DeathState _deathState;
     private SkeletonAttackState _skeletonAttackState;
+
+    private CharacterPlayerController _nearestPlayer;
     private List<float> _distances;
-    private GameObject _nearestPlayer;
     private float _nearestPlayerDistance;
     private bool _flipX;
     private bool _currentFlipX;
+
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteObject;
     [SerializeField] private PlayerPool _playerObjects;
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
-    [SerializeField] private GameObject _bullet;
-    [SerializeField] private Transform _bulletSpawn;
-    [SerializeField] private GameObject _spriteObject;
+    [SerializeField] private Bullet _bullet;
+    [SerializeField] private Transform _bulletSpawn; 
+
     public Animator _anim;
 
     public override void Spawned()
     {
         _sm = new StateMachine();
-        _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
-        _deathState = new DeathState(gameObject);
-        _skeletonAttackState = new SkeletonAttackState(gameObject, _enemyData, _bullet, _bulletSpawn, gameObject.GetComponent<Enemy>());
+        _movementState = new MovementState(_anim, _enemyData.MovingSpeed, gameObject.GetComponent<Rigidbody2D>(), transform);
+        _deathState = new DeathState();
+        _skeletonAttackState = new SkeletonAttackState(transform, _enemyData, _bullet, _bulletSpawn, gameObject.GetComponent<Enemy>(), gameObject.GetComponent<Rigidbody2D>());
         _sm.Initialize(_movementState);
         _hp.SetHP(_enemyData.HP);
         StartCoroutine(NearestPlayer());
@@ -60,7 +63,7 @@ public class Skeleton : Enemy
             if (_currentFlipX != _flipX)
             {
                 _flipX = false;
-                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(Angle0, Angle0, Angle0);
             }
         }
         else if (_nearestPlayer.transform.position.x < Object.transform.position.x)
@@ -69,7 +72,7 @@ public class Skeleton : Enemy
             if (_currentFlipX != _flipX)
             {
                 _flipX = true;
-                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(Angle0, Angle180, Angle0);
             }
         }
     }
@@ -110,7 +113,7 @@ public class Skeleton : Enemy
             _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
             int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
             if (minDistanceIndex >= 0)
-                _nearestPlayer = _playerObjects.players[minDistanceIndex];
+                _nearestPlayer = _playerObjects.players[minDistanceIndex].GetComponent<CharacterPlayerController>();
         }
     }
     IEnumerator NearestPlayer()

@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class PlayerCamera : NetworkBehaviour
 {
-    private const int ANOTHER_PLAYER_NUMBER_IN_LIST = 0;
     [SerializeField] private PlayerPool _playerPool;
-    private GameObject camera;
+    private Camera _camera;
 
     public override void Spawned()
     {
         if (HasInputAuthority)
         {
-            camera = GameObject.FindGameObjectWithTag("MainCamera");         
-            camera.GetComponent<TopDownCamera>().target = gameObject.transform;
+            _camera = Camera.main;      
+            _camera.GetComponent<TopDownCamera>().Target = gameObject.transform;
 
         }
     }
@@ -23,7 +22,7 @@ public class PlayerCamera : NetworkBehaviour
             for (int i = 0; i < _playerPool.players.Count; i++)
             {
                 if (_playerPool.players[i] != gameObject)
-                    camera.GetComponent<TopDownCamera>().target = _playerPool.players[i].transform;
+                    _camera.GetComponent<TopDownCamera>().Target = _playerPool.players[i].transform;
             }
         }
     }

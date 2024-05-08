@@ -62,7 +62,7 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         var playerObject = Runner.Spawn(_characterNetworkPrefabs[character], spawnPosition, Quaternion.identity, player);
         Runner.SetPlayerObject(player, playerObject);
         int weaponIndex = Random.Range(0, weaponList.Count - 1);
-        playerObject.GetComponent<WeaponController>().weaponNumber = weaponNumberList[weaponIndex];
+        playerObject.GetComponent<WeaponController>().WeaponNumber = weaponNumberList[weaponIndex];
         weaponNumberList.RemoveAt(weaponIndex);
     }
 

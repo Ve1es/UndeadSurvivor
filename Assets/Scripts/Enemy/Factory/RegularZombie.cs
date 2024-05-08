@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class RegularZombie : Enemy
 {
-    private const float ANGLE0 = 0;
-    private const float ANGLE90 = 90;
-    private const float ANGLE180 = 180;
-    private const float ATTACK_ANIMATION_DURATION = 0.5f;
+    private const float Angle0 = 0;
+    private const float Angle180 = 180;
+    private const float Attack_Animation_Duration = 0.5f;
+
     private StateMachine _sm;
     private MovementState _movementState;
     private DeathState _deathState;
     private ZombieAttackState _zombieAttackState;
+
+    private CharacterPlayerController _nearestPlayer;
     private List<float> _distances;
-    private GameObject _nearestPlayer;
     private bool _canAttack = true;
     private bool _flipX;
     private bool _currentFlipX;
+
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private float _nearestPlayerDistance;
     [SerializeField] private Animator _anim;
     [SerializeField] private PlayerPool _playerObjects;
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
-    [SerializeField] private GameObject _attack;
-    [SerializeField] private GameObject _spriteObject;
-
+    [SerializeField] private SpriteRenderer _attack;
+    [SerializeField] private SpriteRenderer _spriteObject;
+    [SerializeField] private float _nearestPlayerDistance;
 
     public override void Spawned()
     {
         _sm = new StateMachine();
-        _movementState = new MovementState(gameObject, _enemyData.MovingSpeed);
-        _deathState = new DeathState(gameObject);
+        _movementState = new MovementState(_anim, _enemyData.MovingSpeed, gameObject.GetComponent<Rigidbody2D>(), transform);
+        _deathState = new DeathState();
         _zombieAttackState = new ZombieAttackState(_enemyData, _sm, _movementState);
         _hp.SetHP(_enemyData.HP);
         _sm.Initialize(_movementState);
-
         StartCoroutine(NearestPlayer());
     }
     public override void Activate() 
@@ -65,7 +65,7 @@ public class RegularZombie : Enemy
             if (_currentFlipX != _flipX)
             {
                 _flipX = false;
-                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE0, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(Angle0, Angle0, Angle0);
             }
         }
         else if (_nearestPlayer.transform.position.x < Object.transform.position.x)
@@ -74,7 +74,7 @@ public class RegularZombie : Enemy
             if (_currentFlipX != _flipX)
             {
                 _flipX = true;
-                _spriteObject.transform.localRotation = Quaternion.Euler(ANGLE0, ANGLE180, ANGLE0);
+                _spriteObject.transform.localRotation = Quaternion.Euler(Angle0, Angle180, Angle0);
             }
         }
     }
@@ -86,14 +86,14 @@ public class RegularZombie : Enemy
     [Rpc]
     public void RPC_AttackAnimation()
     {
-        _attack.SetActive(true);
+        _attack.gameObject.SetActive(true);
         StartCoroutine(CloseAnimation());
 
     }
     IEnumerator CloseAnimation()
     {
-        yield return new WaitForSeconds(ATTACK_ANIMATION_DURATION);
-        _attack.SetActive(false);
+        yield return new WaitForSeconds(Attack_Animation_Duration);
+        _attack.gameObject.SetActive(false);
     }
     public override void MoveBehavior() 
     {
@@ -128,7 +128,7 @@ public class RegularZombie : Enemy
             _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
             int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
             if (minDistanceIndex >= 0)
-                _nearestPlayer = _playerObjects.players[minDistanceIndex];
+                _nearestPlayer = _playerObjects.players[minDistanceIndex].GetComponent<CharacterPlayerController>(); ;
         }
     }
     IEnumerator NearestPlayer()

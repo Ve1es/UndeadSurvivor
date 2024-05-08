@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EndGameStatistics : NetworkBehaviour
 {
-    private const int PLAYER_ONE_NUMBER_IN_LIST = 0;
-    private const int PLAYER_TWO_NUMBER_IN_LIST = 1;
-    private const int PLAYER_DAMAGE_FIRST_FIELD = 0;
-    private const int PLAYER_DAMAGE_SECOND_FIELD = 1;
+    private const int Player_One_Number_In_List = 0;
+    private const int Player_Two_Number_In_Lis = 1;
+    private const int Player_Damage_First_Field = 0;
+    private const int Player_Damage_Second_Field = 1;
     [Networked] private string playerOneName { get; set; }
     [Networked] private string playerTwoName { get; set; }
     [Networked] private string playerOneKills { get; set; }
@@ -15,7 +15,8 @@ public class EndGameStatistics : NetworkBehaviour
     [Networked] private string playerOneDamage { get; set; }
     [Networked] private string playerTwoDamage { get; set; }
     [Networked] private int playersCount { get; set; }
-    [SerializeField] private GameObject _endGameStats;
+
+    [SerializeField] private Canvas _endGameStats;
     [SerializeField] private PlayerPool _playerPool;
     [SerializeField] private KillsList _killsList;
     [SerializeField] private PlayerDamageList _playerDamageList;
@@ -37,14 +38,14 @@ public class EndGameStatistics : NetworkBehaviour
         if (HasStateAuthority)
         {
             playersCount = _playerPool.playersInputsNumbers.Count;
-            string playerOneInput = _playerPool.playersInputsNumbers[PLAYER_ONE_NUMBER_IN_LIST];
+            string playerOneInput = _playerPool.playersInputsNumbers[Player_One_Number_In_List];
             playerOneName = playerOneInput;
             playerOneKills = KillCount(playerOneInput).ToString();
             playerOneDamage = DamageCount(playerOneInput).ToString();
 
             if (playersCount > 1)
             {
-                string playerTwoInput = _playerPool.playersInputsNumbers[PLAYER_TWO_NUMBER_IN_LIST];
+                string playerTwoInput = _playerPool.playersInputsNumbers[Player_Two_Number_In_Lis];
                 playerTwoName = playerTwoInput;
                 playerTwoKills = KillCount(playerTwoInput).ToString();
                 playerTwoDamage = DamageCount(playerTwoInput).ToString();
@@ -68,15 +69,14 @@ public class EndGameStatistics : NetworkBehaviour
         float damage = 0;
         foreach (string[] oneDamageTick in _playerDamageList.playersDamage)
         {
-            if (oneDamageTick[PLAYER_DAMAGE_FIRST_FIELD] == playerInput)
-                damage += float.Parse(oneDamageTick[PLAYER_DAMAGE_SECOND_FIELD]);
+            if (oneDamageTick[Player_Damage_First_Field] == playerInput)
+                damage += float.Parse(oneDamageTick[Player_Damage_Second_Field]);
         }
         return damage;
     }
     [Rpc]
     private void Rpc_DisplayStatistic()
     {
-        _endGameStats.SetActive(true);
         FillStatistic();
     }
     [Rpc]

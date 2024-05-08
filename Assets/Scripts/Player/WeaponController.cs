@@ -5,24 +5,30 @@ using UnityEngine;
 public class WeaponController : NetworkBehaviour
 {
     private const string ENEMY_TAG = "Enemy";
-    private const float BULLET_SPEED = 10; 
-    private int _currentWeapon=0;
+    private const float Bullet_Speed = 10;
+    
+    private int _currentWeapon = 0;
     private float _nextFireTime = 0;
+
     [Networked] private int _ammo { get; set; }
+
     [Networked] [SerializeField] private int _maxAmmo { get; set; }
+
     [SerializeField] private NetworkPrefabRef _bulletPrefab = NetworkPrefabRef.Empty;
     [SerializeField] private SpriteRenderer _playersWeaponSprite;
     [SerializeField] private List<WeaponData> _weaponList;
-    public Transform spawnBulletPoint;
-    [Networked] public bool spawnedProjectile { get; set; }
-    [Networked] public int weaponNumber { get; set; }
+
+    public Transform SpawnBulletPoint;
+
+    [Networked] public bool SpawnedProjectile { get; set; }
+    [Networked] public int WeaponNumber { get; set; }
 
     public void AppointWeapon()
     {
-        _currentWeapon = weaponNumber;
-        _playersWeaponSprite.sprite = _weaponList[weaponNumber].WeaponSprite;
-        _ammo = _weaponList[weaponNumber].Ammo;
-        _maxAmmo = _weaponList[weaponNumber].Ammo;
+        _currentWeapon = WeaponNumber;
+        _playersWeaponSprite.sprite = _weaponList[WeaponNumber].WeaponSprite;
+        _ammo = _weaponList[WeaponNumber].Ammo;
+        _maxAmmo = _weaponList[WeaponNumber].Ammo;
     }
     public void AddAmmo()
     {
@@ -38,7 +44,7 @@ public class WeaponController : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        if(weaponNumber!= _currentWeapon)
+        if(WeaponNumber != _currentWeapon)
         {
             AppointWeapon();
         }
@@ -47,11 +53,11 @@ public class WeaponController : NetworkBehaviour
     }
     public void Shoot(CharacterInput input)
     {
-        if (_nextFireTime <= 0&&_ammo>0)
+        if (_nextFireTime <= 0 && _ammo > 0)
         {
             CreateBullet();
-            spawnedProjectile = !spawnedProjectile;
-            _nextFireTime = _weaponList[weaponNumber].TimeBetweenShots;
+            SpawnedProjectile = !SpawnedProjectile;
+            _nextFireTime = _weaponList[WeaponNumber].TimeBetweenShots;
             _ammo--;
         }
     }
@@ -59,35 +65,34 @@ public class WeaponController : NetworkBehaviour
     {
         if (HasStateAuthority)
         {
-            if (_weaponList[weaponNumber].BulletPerShot <= 1)
+            if (_weaponList[WeaponNumber].BulletPerShot <= 1)
             {
                 Runner.Spawn(_bulletPrefab,
-                 spawnBulletPoint.position,
-                 spawnBulletPoint.rotation,
+                 SpawnBulletPoint.position,
+                 SpawnBulletPoint.rotation,
                  Object.InputAuthority,
                  (runner, o) =>
                  {
-                     o.GetComponent<Bullet>().Init(_weaponList[weaponNumber].FlightDistance, BULLET_SPEED);
-                     o.GetComponent<DealDamage>().SetDamage(_weaponList[weaponNumber].Damage);
+                     o.GetComponent<Bullet>().Init(_weaponList[WeaponNumber].FlightDistance, Bullet_Speed);
+                     o.GetComponent<DealDamage>().SetDamage(_weaponList[WeaponNumber].Damage);
                      o.GetComponent<DealDamage>().SetGoalTag(ENEMY_TAG);
                  });
             }
             else
             {
-                for (int i = 0; i < _weaponList[weaponNumber].BulletPerShot; i++)
+                for (int i = 0; i < _weaponList[WeaponNumber].BulletPerShot; i++)
                 {
-                    float deviationAngle = Random.Range(-_weaponList[weaponNumber].Spread, _weaponList[weaponNumber].Spread);
-                    Vector3 deviation = Quaternion.Euler(0, 0, deviationAngle) * spawnBulletPoint.right;
-
+                    float deviationAngle = Random.Range(-_weaponList[WeaponNumber].Spread, _weaponList[WeaponNumber].Spread);
+                    Vector3 deviation = Quaternion.Euler(0, 0, deviationAngle) * SpawnBulletPoint.right;
 
                     Runner.Spawn(_bulletPrefab,
-                    spawnBulletPoint.position,
-                    spawnBulletPoint.rotation,
+                    SpawnBulletPoint.position,
+                    SpawnBulletPoint.rotation,
                     Object.InputAuthority,
                     (runner, o) =>
                     {
-                        o.GetComponent<Bullet>().Init(deviation, _weaponList[weaponNumber].FlightDistance, BULLET_SPEED);
-                        o.GetComponent<DealDamage>().SetDamage(_weaponList[weaponNumber].Damage);
+                        o.GetComponent<Bullet>().Init(deviation, _weaponList[WeaponNumber].FlightDistance, Bullet_Speed);
+                        o.GetComponent<DealDamage>().SetDamage(_weaponList[WeaponNumber].Damage);
                         o.GetComponent<DealDamage>().SetGoalTag(ENEMY_TAG);
                     });
                 }

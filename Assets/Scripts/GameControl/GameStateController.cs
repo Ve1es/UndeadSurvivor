@@ -16,22 +16,14 @@ public class GameStateController : NetworkBehaviour
     private List<NetworkBehaviourId> _playerDataNetworkedIds = new List<NetworkBehaviourId>();
     private LocalInputPoller _localInputPoller;
 
-    [SerializeField] private CharacterSpawner _characterSpawner;
     [SerializeField] private WaveController _waveController;
+    [SerializeField] private CharacterSpawner _characterSpawner;
     [SerializeField] private PlayerPool _playerPool;
     [SerializeField] private KillsList _killsList;
     [SerializeField] private PlayerDamageList _playerDamageList;
-    [SerializeField] private GameObject _endGameResult;
-    [SerializeField] private GameObject _preGame;
-    [SerializeField] private GameObject _kills;
-    [SerializeField] private GameObject _hp;
-    [SerializeField] private GameObject _ammo;
-    [SerializeField] private GameObject _timer;
-    [SerializeField] private GameObject _joysticLeft;
-    [SerializeField] private GameObject _joysticRight;
-    [SerializeField] private GameObject _joysticLeftButton;
-    [SerializeField] private GameObject _joysticRightButton;
-    [SerializeField] private GameObject _promptText;
+
+    [SerializeField] private EndGameStatistics _endGameResult;
+    [SerializeField] private StartLevelUIChange _startLevelUIChange;
 
     public JoystickMove joysticMove;
     public JoystickWeapon joysticWeapon;
@@ -88,7 +80,7 @@ public class GameStateController : NetworkBehaviour
     {
         if (_characterSpawner._selectedCharacters != null)
         {
-            if (_characterSpawner._selectedCharacters.Count >= 2)
+            if (_characterSpawner._selectedCharacters.Count >= 1)
             {
                 _characterSpawner.StartCharacterSpawner(this);
 
@@ -113,19 +105,21 @@ public class GameStateController : NetworkBehaviour
     [Rpc]
     public void RPC_ChangeInterface()
     {
-        _preGame.SetActive(false);
-        _kills.SetActive(true);
-        _hp.SetActive(true);
-        _ammo.SetActive(true);
-        _timer.SetActive(true);
-        _joysticLeft.SetActive(true);
-        _joysticRight.SetActive(true);
-        _joysticLeftButton.SetActive(true);
-        _joysticRightButton.SetActive(true);
+        _startLevelUIChange.Changeinterface();
+        //_preGame.SetActive(false);
+        //_kills.SetActive(true);
+        //_hp.SetActive(true);
+        //_ammo.SetActive(true);
+        //_timer.SetActive(true);
+        //_joysticLeft.SetActive(true);
+        //_joysticRight.SetActive(true);
+        //_joysticLeftButton.SetActive(true);
+        //_joysticRightButton.SetActive(true);
     }
     public void GameHasEnded()
     {
-        _endGameResult.GetComponent<EndGameStatistics>().DisplayStatistic();
+        _endGameResult.gameObject.SetActive(true);
+        _endGameResult.DisplayStatistic();
         _gameState = GameState.Ending;
 
     }

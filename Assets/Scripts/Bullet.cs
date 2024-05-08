@@ -3,30 +3,32 @@ using UnityEngine;
 
 public class Bullet : NetworkBehaviour
 {
-    private float _speed;
+    private const float Default_Flight_Distance = 5;
+    private const float Start_Flight_Distance = 0;
+    private const float Default_Speed = 4;
+    
+
     private Vector3 _flightDirection;
-    private const float DEFAULT_FLIGHT_DISTANCE = 5;
-    private const float START_FLIGHT_DISTANCE = 0;
-    private const float DEFAULT_SPEED = 4;
     private Vector3 _initialPosition;
+    private float _speed;
     private float _distanceTravelled;
     private float _maxDistance;
 
-    public void Init(Vector3 flightDirection, float flightDistance = DEFAULT_FLIGHT_DISTANCE, float speed = DEFAULT_SPEED)
+    public void Init(Vector3 flightDirection, float flightDistance = Default_Flight_Distance, float speed = Default_Speed)
     {
         _speed = speed;
        _flightDirection = flightDirection;
         _initialPosition = transform.position;
         _maxDistance = flightDistance;
-        _distanceTravelled = START_FLIGHT_DISTANCE;
+        _distanceTravelled = Start_Flight_Distance;
     }
-    public void Init(float flightDistance = DEFAULT_FLIGHT_DISTANCE, float speed = DEFAULT_SPEED)
+    public void Init(float flightDistance = Default_Flight_Distance, float speed = Default_Speed)
     {
         _speed = speed;
         _flightDirection = transform.right;
         _initialPosition = transform.position;
         _maxDistance = flightDistance;
-        _distanceTravelled = START_FLIGHT_DISTANCE;
+        _distanceTravelled = Start_Flight_Distance;
     }
 
     public override void FixedUpdateNetwork()

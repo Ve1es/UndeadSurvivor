@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc93618d2cab304d9677748c81c785b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  offset: {x: 0, y: 0, z: -1}
-  smoothTime: 0.3
+  Target: {fileID: 0}
+  Owner: 
+  Offset: {x: 0, y: 0, z: -10}
+  SmoothTime: 0.3

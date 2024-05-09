@@ -249,7 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 7917791366934295806}
   Weapon: {fileID: 9048194308370722821}
-  _weapon: {fileID: 3808615838577686480}
+  WeaponController: {fileID: 3808615838577686480}
 --- !u!114 &-6799881331775675790
 MonoBehaviour:
   m_ObjectHideFlags: 0

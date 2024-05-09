@@ -134424,7 +134424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a09b205014a90b46a780cd3d23e620e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 100
+  _maxDistance: 100
 --- !u!114 &676994416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135149,8 +135149,8 @@ MonoBehaviour:
   _playerPool: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _weaponsCount: 3
   _spawnPoints:
-  - {fileID: 300124251}
-  - {fileID: 1483763513}
+  - {fileID: 300124252}
+  - {fileID: 1483763514}
   weaponList:
   - {fileID: 11400000, guid: ac60be6b04d4ec14788848174778761d, type: 2}
   - {fileID: 11400000, guid: c1da0bb2a8c50924da4937f9e419732e, type: 2}
@@ -135190,10 +135190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd65e58346c6194aaa472269e142220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCenter: {fileID: 796518462}
-  spawnWidth: 26
-  spawnHeight: 18
-  spawnFrequency: 5
+  _spawnCenter: {fileID: 796518462}
+  _spawnWidth: 27
+  _spawnHeight: 19
+  _spawnFrequency: 5
 --- !u!1 &899134745
 GameObject:
   m_ObjectHideFlags: 0
@@ -136892,7 +136892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6e9a14380d38a4daf3dd3a599c10a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 100
+  _maxDistance: 100
 --- !u!1 &1325038339
 GameObject:
   m_ObjectHideFlags: 0
@@ -137949,16 +137949,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6342240c007dc4095daa3b72f8649b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endGameStats: {fileID: 1624120897}
+  _endGameStats: {fileID: 1624120901}
   _playerPool: {fileID: 11400000, guid: c27769fa14d6b534fb2fbea77453c511, type: 2}
   _killsList: {fileID: 11400000, guid: 3089bf78e289e3042a921a462b303c24, type: 2}
   _playerDamageList: {fileID: 11400000, guid: 355f73f429603414788beff5f61a9dd2, type: 2}
-  _playerOneName: {fileID: 1005976994}
-  _playerOneKills: {fileID: 215232026}
-  _playerOneDamage: {fileID: 292257111}
-  _playerTwoName: {fileID: 951186664}
-  _playerTwoKills: {fileID: 1325038341}
-  _playerTwoDamage: {fileID: 1063593306}
+  _playerOneNameT: {fileID: 1005976994}
+  _playerOneKillsT: {fileID: 215232026}
+  _playerOneDamageT: {fileID: 292257111}
+  _playerTwoNameT: {fileID: 951186664}
+  _playerTwoKillsT: {fileID: 1325038341}
+  _playerTwoDamageT: {fileID: 1063593306}
 --- !u!1 &1742451105
 GameObject:
   m_ObjectHideFlags: 0
@@ -138656,8 +138656,8 @@ MonoBehaviour:
   _playerDamageList: {fileID: 11400000, guid: 355f73f429603414788beff5f61a9dd2, type: 2}
   _endGameResult: {fileID: 1624120903}
   _startLevelUIChange: {fileID: 1955491174}
-  joysticMove: {fileID: 676994415}
-  joysticWeapon: {fileID: 1312195022}
+  _joysticMove: {fileID: 676994415}
+  _joysticWeapon: {fileID: 1312195022}
 --- !u!4 &1955491170
 Transform:
   m_ObjectHideFlags: 0

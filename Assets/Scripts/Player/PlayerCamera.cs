@@ -17,12 +17,12 @@ public class PlayerCamera : NetworkBehaviour
     }
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        if (_playerPool.players.Count > 0)
+        if (_playerPool.Players.Count > 0)
         {
-            for (int i = 0; i < _playerPool.players.Count; i++)
+            for (int i = 0; i < _playerPool.Players.Count; i++)
             {
-                if (_playerPool.players[i] != gameObject)
-                    _camera.GetComponent<TopDownCamera>().Target = _playerPool.players[i].transform;
+                if (_playerPool.Players[i] != gameObject)
+                    _camera.GetComponent<TopDownCamera>().Target = _playerPool.Players[i].transform;
             }
         }
     }

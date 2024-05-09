@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
-    private const int PLAYER_COUNT = 2;
+    private const int Player_Count = 2;
+
     private GameStateController _gameStateController = null;
     private List<int> weaponNumberList;
+
     [SerializeField] private NetworkPrefabRef[] _characterNetworkPrefabs;
     [SerializeField] private PlayerPool _playerPool;
     [SerializeField] private int _weaponsCount;
-    [SerializeField] private GameObject[] _spawnPoints;
+    [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private List<WeaponData> weaponList;
-    public Dictionary<PlayerRef, int> _selectedCharacters = new Dictionary<PlayerRef, int>();
+
+    public Dictionary<PlayerRef, int> SelectedCharacters = new Dictionary<PlayerRef, int>();
 
     public void AddPlayerCharacter(int characterNumber, PlayerRef player)
     {
-        if (_selectedCharacters.ContainsKey(player))
+        if (SelectedCharacters.ContainsKey(player))
         {
-            _selectedCharacters[player] = characterNumber;
+            SelectedCharacters[player] = characterNumber;
         }
         else
         {
-            _selectedCharacters.Add(player, characterNumber);
+            SelectedCharacters.Add(player, characterNumber);
         }
     }
 
@@ -56,9 +59,9 @@ public class CharacterSpawner : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     private void SpawnCharacter(PlayerRef player)
     {
-        int index = player.PlayerId % PLAYER_COUNT;
-        var spawnPosition = _spawnPoints[index].transform.position;
-        int character = _selectedCharacters[player];
+        int index = player.PlayerId % Player_Count;
+        var spawnPosition = _spawnPoints[index].position;
+        int character = SelectedCharacters[player];
         var playerObject = Runner.Spawn(_characterNetworkPrefabs[character], spawnPosition, Quaternion.identity, player);
         Runner.SetPlayerObject(player, playerObject);
         int weaponIndex = Random.Range(0, weaponList.Count - 1);

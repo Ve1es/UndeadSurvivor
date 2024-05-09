@@ -8,7 +8,7 @@ public class JoystickMove : NetworkBehaviour, IPointerDownHandler, IPointerUpHan
     private Image _joystick;
     private Image _joystickButton;
     private Vector2 _inputVector;
-    [SerializeField] private float maxDistance = 100f;
+    [SerializeField] private float _maxDistance = 100f;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class JoystickMove : NetworkBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 direction = (eventData.position - (Vector2)_joystick.transform.position);
-        direction = Vector2.ClampMagnitude(direction, maxDistance);
+        direction = Vector2.ClampMagnitude(direction, _maxDistance);
         _joystickButton.rectTransform.anchoredPosition = direction;
         _inputVector = direction.normalized;
     }

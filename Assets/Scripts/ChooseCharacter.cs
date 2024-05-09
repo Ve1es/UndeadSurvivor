@@ -1,12 +1,13 @@
 using UnityEngine;
 using Fusion;
+using UnityEngine.UI;
 
 public class ChooseCharacter : NetworkBehaviour
 {
-    private const int DEFAULT_CHARACTER_NUMBER = 0;
-    private int _characterNumber = DEFAULT_CHARACTER_NUMBER;
-    [SerializeField] private GameObject[] _characterBack;
-    [SerializeField] private GameObject[] _characterChooseButtons;
+    private const int Default_Character_Number = 0;
+    private int _characterNumber = Default_Character_Number;
+    [SerializeField] private Image[] _characterBack;
+    [SerializeField] private Button[] _characterChooseButtons;
     [SerializeField] private CharacterSpawner _spawn;
 
     [Rpc]
@@ -27,11 +28,11 @@ public class ChooseCharacter : NetworkBehaviour
         {
             if (i != _characterNumber)
             {
-                _characterBack[i].SetActive(false);
+                _characterBack[i].gameObject.SetActive(false);
             }
             else
             {
-                _characterBack[i].SetActive(true);
+                _characterBack[i].gameObject.SetActive(true);
             }
         }
     }
@@ -42,8 +43,8 @@ public class ChooseCharacter : NetworkBehaviour
         {
             if (i != _characterNumber)
             {
-                _characterBack[i].SetActive(false);
-                _characterChooseButtons[i].SetActive(false);
+                _characterBack[i].gameObject.SetActive(false);
+                _characterChooseButtons[i].gameObject.SetActive(false);
             }
         }
     }

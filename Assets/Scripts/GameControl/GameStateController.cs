@@ -24,15 +24,14 @@ public class GameStateController : NetworkBehaviour
 
     [SerializeField] private EndGameStatistics _endGameResult;
     [SerializeField] private StartLevelUIChange _startLevelUIChange;
-
-    public JoystickMove joysticMove;
-    public JoystickWeapon joysticWeapon;
+    [SerializeField] private JoystickMove _joysticMove;
+    [SerializeField] private JoystickWeapon _joysticWeapon;
 
 
     private void Start()
     {
         _localInputPoller = FindObjectOfType<LocalInputPoller>();
-        _localInputPoller.ConnectInputSystem(joysticMove, joysticWeapon);
+        _localInputPoller.ConnectInputSystem(_joysticMove, _joysticWeapon);
     }
 
     public override void Spawned()
@@ -78,9 +77,9 @@ public class GameStateController : NetworkBehaviour
 
     private void UpdateWaiting()
     {
-        if (_characterSpawner._selectedCharacters != null)
+        if (_characterSpawner.SelectedCharacters != null)
         {
-            if (_characterSpawner._selectedCharacters.Count >= 1)
+            if (_characterSpawner.SelectedCharacters.Count >= 1)
             {
                 _characterSpawner.StartCharacterSpawner(this);
 
@@ -92,7 +91,7 @@ public class GameStateController : NetworkBehaviour
     }
     private void UpdateRunning()
     {
-        if(_playerPool.players.Count <= 0) 
+        if(_playerPool.Players.Count <= 0) 
         {
             GameHasEnded();
         }
@@ -106,15 +105,6 @@ public class GameStateController : NetworkBehaviour
     public void RPC_ChangeInterface()
     {
         _startLevelUIChange.Changeinterface();
-        //_preGame.SetActive(false);
-        //_kills.SetActive(true);
-        //_hp.SetActive(true);
-        //_ammo.SetActive(true);
-        //_timer.SetActive(true);
-        //_joysticLeft.SetActive(true);
-        //_joysticRight.SetActive(true);
-        //_joysticLeftButton.SetActive(true);
-        //_joysticRightButton.SetActive(true);
     }
     public void GameHasEnded()
     {

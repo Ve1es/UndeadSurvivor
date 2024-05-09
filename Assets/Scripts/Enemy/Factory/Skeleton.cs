@@ -25,9 +25,8 @@ public class Skeleton : Enemy
     [SerializeField] private EnemyData _enemyData;
     [SerializeField] private Health _hp;
     [SerializeField] private Bullet _bullet;
-    [SerializeField] private Transform _bulletSpawn; 
-
-    public Animator _anim;
+    [SerializeField] private Transform _bulletSpawn;
+    [SerializeField] private Animator _anim;
 
     public override void Spawned()
     {
@@ -96,29 +95,29 @@ public class Skeleton : Enemy
     public void FoundNearestPlayer()
     {
         _distances = new List<float>();
-        if (_playerObjects.players != null)
+        if (_playerObjects.Players != null)
         {
-            for (int i = 0; i<= _playerObjects.players.Count - 1; i++)
+            for (int i = 0; i<= _playerObjects.Players.Count - 1; i++)
             {
-                if (_playerObjects.players[i] == null)
+                if (_playerObjects.Players[i] == null)
                 {
-                    _playerObjects.players.RemoveAt(i);
+                    _playerObjects.Players.RemoveAt(i);
                 }
                 else
                 {
-                    float distanceToPlayer = Vector3.Distance(gameObject.transform.position, _playerObjects.players[i].transform.position);
+                    float distanceToPlayer = Vector3.Distance(gameObject.transform.position, _playerObjects.Players[i].transform.position);
                     _distances.Add(distanceToPlayer);
                 }
             }
             _nearestPlayerDistance = Mathf.Min(_distances.ToArray());
             int minDistanceIndex = _distances.IndexOf(_nearestPlayerDistance);
             if (minDistanceIndex >= 0)
-                _nearestPlayer = _playerObjects.players[minDistanceIndex].GetComponent<CharacterPlayerController>();
+                _nearestPlayer = _playerObjects.Players[minDistanceIndex].GetComponent<CharacterPlayerController>();
         }
     }
     IEnumerator NearestPlayer()
     {
-        while (_playerObjects.players.Count > 0)
+        while (_playerObjects.Players.Count > 0)
         {
             FoundNearestPlayer();
             yield return new WaitForSeconds(1f);

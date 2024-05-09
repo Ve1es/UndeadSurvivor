@@ -12,7 +12,7 @@ public class CharacterShootController : NetworkBehaviour
 
     public Transform Player;
     public Transform Weapon; 
-    public WeaponController _weapon;
+    public WeaponController WeaponController;
     
     public override void Spawned()
     {
@@ -29,7 +29,7 @@ public class CharacterShootController : NetworkBehaviour
                 if (input.Shoot)
                 {
                     WeaponMove(input);
-                    _weapon.Shoot(input);
+                    WeaponController.Shoot(input);
                 }
             }
         }

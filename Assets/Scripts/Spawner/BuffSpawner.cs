@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class BuffSpawner : NetworkBehaviour
 {
-    private const float ZCOORDINATE = 0;
+    private const float Z_Coordinate = 0;
+    private const float Map_Width = 27f;
+    private const float Map_Height = 19f;
+    private const float SpawnFrequency = 5f;
+
     private bool _isSpawning = false;
-    public Transform spawnCenter;
-    public float spawnWidth = 27f;
-    public float spawnHeight = 19f;
-    public float spawnFrequency = 5f;
+
+    [SerializeField] private Transform _spawnCenter;
+    [SerializeField] private float _spawnWidth = Map_Width;
+    [SerializeField] private float _spawnHeight = Map_Height;
+    [SerializeField] private float _spawnFrequency = SpawnFrequency;
    
     public void StartSpawnBuff(float _buffSpawnTime, List<NetworkPrefabRef> enemies)
     {
@@ -26,7 +31,7 @@ public class BuffSpawner : NetworkBehaviour
         while (_isSpawning)
         {
             NetworkPrefabRef buffPrefab = enemies[Random.Range(0, enemies.Count)];
-            Vector3 randomPosition = new Vector3(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight), ZCOORDINATE);
+            Vector3 randomPosition = new Vector3(Random.Range(-_spawnWidth, _spawnWidth), Random.Range(-_spawnHeight, _spawnHeight), Z_Coordinate);
             Runner.Spawn(buffPrefab, randomPosition, Quaternion.identity);
             yield return new WaitForSeconds(_buffSpawnTime);
         }

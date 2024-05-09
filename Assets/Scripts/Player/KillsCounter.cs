@@ -11,16 +11,16 @@ public class KillsCounter : NetworkBehaviour
 
     public void Update()
     {
-        if (_killList != null && _listLength != _killList.playersKills.Count)
+        if (_killList != null && _listLength != _killList.PlayersKills.Count)
         {
 
-            for (int i = _listLength; i < _killList.playersKills.Count; i++)
+            for (int i = _listLength; i < _killList.PlayersKills.Count; i++)
             {
-                if (_killList.playersKills[i] == _player)
+                if (_killList.PlayersKills[i] == _player)
                     PlayerKills++;
             }
 
-            _listLength = _killList.playersKills.Count;
+            _listLength = _killList.PlayersKills.Count;
         }
     }
 

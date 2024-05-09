@@ -4,13 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayersKilling", menuName = "Managers/PlayersKilling")]
 public class KillsList : ScriptableObject
 {
-    public List<string> playersKills = new List<string>();
+    public List<string> PlayersKills = new List<string>();
     public void AddString(string info)
     {
-        playersKills.Add(info);
+        PlayersKills.Add(info);
     }
     public void ClearPool()
     {
-        playersKills.Clear();
+        PlayersKills.Clear();
     }
 }

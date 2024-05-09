@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayersDamage", menuName = "Managers/PlayersDamage")]
 public class PlayerDamageList : ScriptableObject
 {
-    public List<string[]> playersDamage = new List<string[]>();
+    public List<string[]> PlayersDamage = new List<string[]>();
     public void AddString(string player, string damage)
     {
-        playersDamage.Add(new string[] { player, damage });
+        PlayersDamage.Add(new string[] { player, damage });
     }
     public void ClearPool()
     {
-        playersDamage.Clear();
+        PlayersDamage.Clear();
     }
 }

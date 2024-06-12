@@ -14,9 +14,13 @@ The project is structured to avoid the use of large controller classes.
 The Singleton anti-pattern is not used in the project.
 
 Create a convenient toolkit for configuring the main aspects of the game:
+
 A toolkit for configuring:
+
 Waves
+
 Weapon characteristics
+
 Enemy characteristics
 
 ## Project Requirements
